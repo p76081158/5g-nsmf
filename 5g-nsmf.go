@@ -36,8 +36,8 @@ func main() {
 	request = append(request, Slice{"Slice 3", 20, 600, nil})
 	
 	bin = Bin{"Resource", 60, 1000, request}
-
-    p = Packer{bin, access, reject, deploy_info}
+	
+	p = Packer{bin, access, reject, deploy_info}
 
 	p.Pack()
 	fmt.Println("Accept Slices: ", p.AcceptSlices)

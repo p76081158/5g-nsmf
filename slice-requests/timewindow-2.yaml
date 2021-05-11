@@ -1,0 +1,14 @@
+requestList:
+  sliceList:
+    - snssai: "0x01010203"        # hex of sd and sst combination
+      ngci: 466-01-000000010      # gnb global id (which gnb slice be assigned to)
+      duration: 30                # slice up time (seconds)
+      resource: 600               # required resources (cpu, bandwidth)
+    - snssai: "0x01010204"
+      ngci: 466-11-000000010
+      duration: 20
+      resource: 600
+    - snssai: "0x01010205"
+      ngci: 466-93-000000010
+      duration: 20
+      resource: 600

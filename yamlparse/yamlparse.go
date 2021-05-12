@@ -61,7 +61,7 @@ func GetForecastingBlock(sliceID string) ([]Block){
     split := strings.Split(sliceID, ",")
     ngci := split[0]
     slice := split[1]
-    path := "slice-forecasting/"+ ngci + "/" + slice + ".yaml"
+    path := "slice-forecasting/" + ngci + "/" + slice + ".yaml"
     yamlFile, err := ioutil.ReadFile(path)
     if err != nil {
         log.Printf("yamlFile.Get err   #%v ", err)

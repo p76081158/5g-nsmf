@@ -10,6 +10,7 @@ type Slice struct {
 	Name     string
 	Width    int
 	Height   int
+	Ngci     string
 	SubBlock []Block
 }
 
@@ -88,15 +89,9 @@ func (p *Packer) Pack() {
 						End:      end,
 						Resource: h,
 					}
-					sub_slice := Slice {
-						Name:     p.Bins.Slices[i].Name + "-" + p.Bins.Slices[i].SubBlock[j].Name,
-						Width:    w,
-						Height:   h,
-						SubBlock: nil,
-					}
-			        p.AcceptSlices = append(p.AcceptSlices, sub_slice)
 					p.DeployInfos  = append(p.DeployInfos, info)
 				}
+				p.AcceptSlices = append(p.AcceptSlices, p.Bins.Slices[i])
 			} else {
 				node = node.split(w, h)
 				info := SliceDeploy {

@@ -1,6 +1,7 @@
 package yamlparse
 
-type Yaml2Go struct {
+// Yaml2Go
+type Yaml2GoRequestList struct {
 	RequestList RequestList `yaml:"requestList"`
 }
 

@@ -1,41 +1,21 @@
 package yamlparse
 
 import (
-    "fmt"
+    //"fmt"
     "io/ioutil"
     "log"
-    //"path/filepath"
-    //"os"
+    "strings"
     "strconv"
 
     "github.com/p76081158/5g-nsmf/slice_binpack"
     "gopkg.in/yaml.v2"
 )
 
-// func (c *Timewindow) getConf() *Timewindow {
-
-//     yamlFile, err := ioutil.ReadFile("slice-requests/timewindow-1.yaml")
-//     if err != nil {
-//         log.Printf("yamlFile.Get err   #%v ", err)
-//     }
-//     err = yaml.Unmarshal(yamlFile, c)
-//     if err != nil {
-//         log.Fatalf("Unmarshal: %v", err)
-//     }
-
-//     return c
-// }
-
-
-// func Test() {
-//     var qq Timewindow
-//     qq.getConf()
-//     fmt.Println(qq)
-// }
 type Slice = slice_binpack.Slice
+type Block = slice_binpack.Block
 
 func RefreshRequestList(windowID int, forecastingFinish bool) ([]Slice) {
-    var timewindow Yaml2Go
+    var timewindow Yaml2GoRequestList
     var requestSlices []Slice
     path := "slice-requests/timewindow-" + strconv.Itoa(windowID) + ".yaml"
     yamlFile, err := ioutil.ReadFile(path)
@@ -50,14 +30,16 @@ func RefreshRequestList(windowID int, forecastingFinish bool) ([]Slice) {
     for i := 0; i < slice_num; i++ {
         if forecastingFinish {
             // not done
-            // s := Slice {
-            //     Name:     timewindow.RequestList.SliceList[i].Snssai,
-            //     Width:    timewindow.RequestList.SliceList[i].Duration,
-            //     Height:   timewindow.RequestList.SliceList[i].Resource,
-            //     Ngci:     timewindow.RequestList.SliceList[i].Ngci,
-            //     SubBlock: ,
-            // }
-            // requestSlices = append(request, s)
+            sliceID := timewindow.RequestList.SliceList[i].Ngci + "," + timewindow.RequestList.SliceList[i].Snssai
+            subBlock := GetForecastingBlock(sliceID)
+            s := Slice {
+                Name:     timewindow.RequestList.SliceList[i].Snssai,
+                Width:    timewindow.RequestList.SliceList[i].Duration,
+                Height:   timewindow.RequestList.SliceList[i].Resource,
+                Ngci:     timewindow.RequestList.SliceList[i].Ngci,
+                SubBlock: subBlock,
+            }
+            requestSlices = append(requestSlices, s)
         } else {
             s := Slice {
                 Name:     timewindow.RequestList.SliceList[i].Snssai,
@@ -69,66 +51,34 @@ func RefreshRequestList(windowID int, forecastingFinish bool) ([]Slice) {
             requestSlices = append(requestSlices, s)
         }
     }
-    fmt.Println(len(timewindow.RequestList.SliceList))
+    //fmt.Println(len(timewindow.RequestList.SliceList))
     return requestSlices
 }
 
-
-
-
-// func GetRequestList(timewindowid int) *Timewindow {
-//     path := "slice-requests/timewindow-" + strconv.Itoa(timewindowid)  + ".yaml"
-//     filename, _ := filepath.Abs(path)
-//     yamlFile, err := ioutil.ReadFile(filename)
-
-//     if err != nil {
-//         panic(err)
-//     }
-
-//     var timewindow Timewindow
-
-//     err = yaml.Unmarshal(yamlFile, &timewindow)
-//     if err != nil {
-//         panic(err)
-//     }
-
-//     return timewindow
-// }
-// var TimewindowNow Timewindow
-// var TimewindowNowRequest Request
-
-// func RefreshRequestList(timewindowid int)  {
-// 	path := "slice-requests/timewindow-" + strconv.Itoa(timewindowid)  + ".yaml"
-//     fmt.Println(path)
-//     yamlFile, err := ioutil.ReadFile(path)
-
-//     if err != nil {
-//         panic(err)
-//     }
-
-//     TimewindowNow = Timewindow{}
-
-//     err = yaml.Unmarshal(yamlFile, &TimewindowNow)
-//     if err != nil {
-//         panic(err)
-//     }
-//     var test Request
-//     test = *(TimewindowNow.Request)
-//     fmt.Println(test)
-// }
-
-// func readConf(timewindowid int)) (*myData, error) {
-
-//     buf, err := ioutil.ReadFile(filename)
-//     if err != nil {
-//         return nil, err
-//     }
-
-//     c := &myData{}
-//     err = yaml.Unmarshal(buf, c)
-//     if err != nil {
-//         return nil, fmt.Errorf("in file %q: %v", filename, err)
-//     }
-
-//     return c, nil
-// }
+func GetForecastingBlock(sliceID string) ([]Block){
+    var forecasting Yaml2GoForecastingBlock
+    var requestBlock []Block
+    split := strings.Split(sliceID, ",")
+    ngci := split[0]
+    slice := split[1]
+    path := "slice-forecasting/"+ ngci + "/" + slice + ".yaml"
+    yamlFile, err := ioutil.ReadFile(path)
+    if err != nil {
+        log.Printf("yamlFile.Get err   #%v ", err)
+        return nil
+    }
+    err = yaml.Unmarshal(yamlFile, &forecasting)
+    if err != nil {
+        panic(err)
+    }
+    block_num := len(forecasting.ForecastingBlock)
+    for i := 0; i < block_num; i++ {
+        b := Block {
+            Name:     slice + "-" + strconv.Itoa(forecasting.ForecastingBlock[i].Block),
+            Width:    forecasting.ForecastingBlock[i].Duration,
+            Height:   forecasting.ForecastingBlock[i].Resource,
+        }
+        requestBlock = append(requestBlock, b)
+    }
+    return requestBlock
+}

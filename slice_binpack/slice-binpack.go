@@ -77,17 +77,17 @@ func (p *Packer) Pack() {
                     h = p.Bins.Slices[i].SubBlock[j].Height
 					node = node.split(w, h)
 					end := false
-					if j == sub_slices_num - 1 {
-						end = true
-					} else {
-						node = node.right
-					}
 					info := SliceDeploy {
-						Name:     p.Bins.Slices[i].Name + "-" + p.Bins.Slices[i].SubBlock[j].Name,
+						Name:     p.Bins.Slices[i].SubBlock[j].Name,
 						Start:    node.x,
 						duration: w,
 						End:      end,
 						Resource: h,
+					}
+					if j == sub_slices_num - 1 {
+						info.End = true
+					} else {
+						node = node.right
 					}
 					p.DeployInfos  = append(p.DeployInfos, info)
 				}

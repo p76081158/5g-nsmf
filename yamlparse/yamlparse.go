@@ -29,7 +29,6 @@ func RefreshRequestList(windowID int, forecastingFinish bool) ([]Slice) {
     slice_num := len(timewindow.RequestList.SliceList)
     for i := 0; i < slice_num; i++ {
         if forecastingFinish {
-            // not done
             sliceID := timewindow.RequestList.SliceList[i].Ngci + "," + timewindow.RequestList.SliceList[i].Snssai
             subBlock := GetForecastingBlock(sliceID)
             s := Slice {

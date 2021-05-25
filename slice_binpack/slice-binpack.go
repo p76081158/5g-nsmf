@@ -16,8 +16,9 @@ type Slice struct {
 
 type SliceDeploy struct {
 	Name     string
+	Ngci     string
 	Start    int
-	duration int
+	Duration int
 	End      bool
 	Resource int
 }
@@ -51,25 +52,38 @@ func (p *Packer) Pack() {
 	for i := 0; i < slices_num; i++ {
 		var w, h int
 		sub_slices_num := len(p.Bins.Slices[i].SubBlock)
-		if sub_slices_num == 1 {
-			w = p.Bins.Slices[i].SubBlock[0].Width
-            h = p.Bins.Slices[i].SubBlock[0].Height
+		// for case that only change resource used and not split to multiple blocks
+		// if sub_slices_num == 1 {
+		// 	w = p.Bins.Slices[i].SubBlock[0].Width
+		// 	h = p.Bins.Slices[i].SubBlock[0].Height
+		// max_h := 0
+		// max_w := 0
+
+		// choose which node for putting the slice (could be multiple blocks)
+		w, h = 0, 0
+		if sub_slices_num >= 1 {
+			for j := 0; j < sub_slices_num; j++ {
+				if p.Bins.Slices[i].SubBlock[j].Height > h {
+					h = p.Bins.Slices[i].SubBlock[j].Height
+				}
+				w += p.Bins.Slices[i].SubBlock[j].Width
+			}
 		} else {
 			w = p.Bins.Slices[i].Width
 			h = p.Bins.Slices[i].Height
 		}
-		max_h := 0
-		max_w := 0
+
 		node := root.find(w, h)
-		if sub_slices_num > 1 {
-			for j := 0; j < sub_slices_num; j++ {
-				if p.Bins.Slices[i].SubBlock[j].Height > max_h {
-					max_h = p.Bins.Slices[i].SubBlock[j].Height
-				}
-				max_w += p.Bins.Slices[i].SubBlock[j].Width
-			}
-			node = root.find(max_w, max_h)
-		}
+		// for finding the node fit the ma
+		// if sub_slices_num > 1 {
+		// 	for j := 0; j < sub_slices_num; j++ {
+		// 		if p.Bins.Slices[i].SubBlock[j].Height > max_h {
+		// 			max_h = p.Bins.Slices[i].SubBlock[j].Height
+		// 		}
+		// 		max_w += p.Bins.Slices[i].SubBlock[j].Width
+		// 	}
+		// 	node = root.find(max_w, max_h)
+		// }
 		if node != nil {
 			if sub_slices_num > 1 {
 				for j :=0; j < sub_slices_num; j++ {
@@ -79,8 +93,9 @@ func (p *Packer) Pack() {
 					end := false
 					info := SliceDeploy {
 						Name:     p.Bins.Slices[i].SubBlock[j].Name,
+						Ngci:     p.Bins.Slices[i].Ngci,
 						Start:    node.x,
-						duration: w,
+						Duration: w,
 						End:      end,
 						Resource: h,
 					}
@@ -96,8 +111,9 @@ func (p *Packer) Pack() {
 				node = node.split(w, h)
 				info := SliceDeploy {
 					Name:     p.Bins.Slices[i].Name,
+					Ngci:     p.Bins.Slices[i].Ngci,
 					Start:    node.x,
-					duration: w,
+					Duration: w,
 					End:      true,
 					Resource: h,
 				}

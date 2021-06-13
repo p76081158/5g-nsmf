@@ -28,7 +28,6 @@ func DeleteSliceFromCoreNetwork(snssai string) {
 
 // modify resource and apply to core network (by calling the nssmf of free5gc)
 func SliceModifyServiceCPU(snssai string, ngci string, cpu int, start int, duration int, end bool) {
-	//nssmfyamlparse.ModifyCPU(snssai, "upf", cpu)
 	time.Sleep(time.Duration(start) * time.Second)
 	nssmf.ApplyServiceCpuChange(snssai, ngci, cpu)
 	if end {
@@ -41,3 +40,6 @@ func SliceModifyServiceCPU(snssai string, ngci string, cpu int, start int, durat
 func SliceModifyBandwidth(snssai string, bandwidth int) {
 
 }
+
+// modify core network NFs cpu resource
+// nssmfyamlparse.ModifyCPU(snssai, "upf", cpu)

@@ -16,12 +16,12 @@ type Block = slicebinpack.Block
 type ResourcePattern = generator.ResourcePattern
 type UeGenerator = generator.UeGenerator
 
-// get network slice requests base on time_window_id and ue request pattern
-func RefreshRequestList(windowID int, forecastingFinish bool) ([]Slice, []UeGenerator) {
+// get network slice requests base on test case dir and time_window_id, alse generate ue request pattern
+func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Slice, []UeGenerator) {
     var timewindow Yaml2GoRequestList
     var requestSlices []Slice
     var requestUeGenerator []UeGenerator
-    path := "slice-requests/timewindow-" + strconv.Itoa(windowID) + ".yaml"
+    path := "slice-requests/" + dir + "/timewindow-" + strconv.Itoa(windowID) + ".yaml"
     yamlFile, err := ioutil.ReadFile(path)
     if err != nil {
         log.Printf("yamlFile.Get err   #%v ", err)
@@ -34,7 +34,7 @@ func RefreshRequestList(windowID int, forecastingFinish bool) ([]Slice, []UeGene
     for i := 0; i < slice_num; i++ {
         if forecastingFinish {
             sliceID := timewindow.RequestList.SliceList[i].Ngci + "," + timewindow.RequestList.SliceList[i].Snssai
-            subBlock, rps := GetForecastingBlock(sliceID)
+            subBlock, rps := GetForecastingBlock(dir, sliceID)
             if rps == nil {
                 rps = []ResourcePattern{}
                 rps = append(rps, ResourcePattern {
@@ -81,14 +81,14 @@ func RefreshRequestList(windowID int, forecastingFinish bool) ([]Slice, []UeGene
 }
 
 // get forecasted network slice and ue request pattern
-func GetForecastingBlock(sliceID string) ([]Block, []ResourcePattern) {
+func GetForecastingBlock(dir string, sliceID string) ([]Block, []ResourcePattern) {
     var forecasting Yaml2GoForecastingBlock
     var requestBlock []Block
     var resourcePattern []ResourcePattern
     split := strings.Split(sliceID, ",")
     ngci := split[0]
     slice := split[1]
-    path := "slice-forecasting/" + ngci + "/" + slice + ".yaml"
+    path := "slice-forecasting/" + dir + "/" + ngci + "/" + slice + ".yaml"
     yamlFile, err := ioutil.ReadFile(path)
     if err != nil {
         log.Printf("yamlFile.Get err   #%v ", err)

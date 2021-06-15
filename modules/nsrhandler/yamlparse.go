@@ -7,8 +7,8 @@ import (
     "strings"
     "strconv"
 
-    "github.com/p76081158/5g-nsmf/module/optimizer/slicebinpack"
-    "github.com/p76081158/5g-nsmf/module/ueransim/ue/generator"
+    "github.com/p76081158/5g-nsmf/modules/optimizer/slicebinpack"
+    "github.com/p76081158/5g-nsmf/modules/ueransim/ue/generator"
     "gopkg.in/yaml.v2"
 )
 

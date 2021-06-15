@@ -46,7 +46,7 @@ type Bin struct {
 	Slices []Slice
 }
 
-func (p *Packer) Pack() {
+func (p *Packer) Pack(algorithm string) {
 	root := node {
 		x:      0,
 		y:      0,
@@ -57,6 +57,7 @@ func (p *Packer) Pack() {
 	if slices_num == 0 {
 		return
 	}
+	tree_list := []*node{ &root }
 	for i := 0; i < slices_num; i++ {
 		var w, h int
 		sub_slices_num := len(p.Bins.Slices[i].SubBlock)
@@ -81,7 +82,9 @@ func (p *Packer) Pack() {
 			h = p.Bins.Slices[i].Height
 		}
 
-		node := root.find(w, h)
+		// select algorithm for finding candidate of network slice placement
+		node := root.find(w, h, algorithm, tree_list)
+
 		// for finding the node fit the ma
 		// if sub_slices_num > 1 {
 		// 	for j := 0; j < sub_slices_num; j++ {
@@ -93,11 +96,14 @@ func (p *Packer) Pack() {
 		// 	node = root.find(max_w, max_h)
 		// }
 		if node != nil {
+			// is slice group or not
 			if sub_slices_num > 1 {
 				for j :=0; j < sub_slices_num; j++ {
 					w = p.Bins.Slices[i].SubBlock[j].Width
                     h = p.Bins.Slices[i].SubBlock[j].Height
 					node = node.split(w, h)
+					tree_list = append(tree_list, node.right)
+					tree_list = append(tree_list, node.top)
 					end := false
 					info := SliceDeploy {
 						Name:     p.Bins.Slices[i].SubBlock[j].Name,
@@ -124,6 +130,8 @@ func (p *Packer) Pack() {
 				p.AcceptSlices = append(p.AcceptSlices, p.Bins.Slices[i])
 			} else {
 				node = node.split(w, h)
+				tree_list = append(tree_list, node.right)
+				tree_list = append(tree_list, node.top)
 				info := SliceDeploy {
 					Name:     p.Bins.Slices[i].Name,
 					Ngci:     p.Bins.Slices[i].Ngci,
@@ -147,4 +155,3 @@ func (p *Packer) Pack() {
 		}
 	}
 }
-

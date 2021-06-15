@@ -2,53 +2,73 @@ package main
 
 import (
 	"fmt"
-	"log"
+	// "log"
 	"os"
-	"os/exec"
+	// "os/exec"
 	"time"
-	"io/ioutil"
-    // "strings"
-    "strconv"
+	// "strings"
+	"strconv"
 
-	"github.com/p76081158/5g-nsmf/module/nsrhandler"
-	"github.com/p76081158/5g-nsmf/module/optimizer/slicebinpack"
-    "gopkg.in/yaml.v2"
-	//"gonum.org/v1/gonum/stat/distuv"
+	"github.com/p76081158/5g-nsmf/modules/nsrhandler"
+	"github.com/p76081158/5g-nsmf/modules/optimizer/slicebinpack"
+	"github.com/p76081158/5g-nsmf/nsrgenerator/modules/nsrtoyaml"
+	"gonum.org/v1/gonum/stat/distuv"
 	"golang.org/x/exp/rand"
 )
 
 type Slice = slicebinpack.Slice
 type Block = slicebinpack.Block
-type Yaml2GoRequestList = nsrhandler.Yaml2GoRequestList
-type RequestList = nsrhandler.RequestList
 type SliceList = nsrhandler.SliceList
 
-var Dir = "test-1"
+var Dir = "test-default"
 var Tenant = 3
-var Num = 10
+var SliceNum = 10
+var ResourceLimit = 1000
+var TimeWindowSize = 600
 var Cpu_min = 2
-var Cpu_max = 10
+var Cpu_max = ResourceLimit / 100
+var Cpu_half = ResourceLimit / 200
+var Slice_min_accept_num = 2
+var Slice_time = TimeWindowSize / Slice_min_accept_num
+var gnb_tenant_dictionary = []string {"466-01-000000010", "466-11-000000010", "466-93-000000010"}
 
-
-// create dir for new set of network slice requests
-func Mkdir(dir string) {
-	sh_cmd := "mkdir -p ../slice-requests/" + dir
-	input_cmd := sh_cmd
-	err := exec.Command("/bin/sh", "-c", input_cmd).Run()
-    if err != nil {
-        log.Fatal(err)
-    }
-	fmt.Println("create network slice request set : ", dir)
+// generate network slice info of each tenant
+func SliceInfoGenerator(dir string, num_tenant int, num_slice int) {
+	var slice_info_dictionary []SliceList
+	for i := 0; i < num_tenant; i++ {
+		hex_tenant_index := fmt.Sprintf("%02x", i + 1)
+		for j := 0; j < num_slice; j++ {
+			r := rand.New(rand.NewSource(uint64(time.Now().UnixNano())))
+			resource_poisson := distuv.Poisson{float64(Cpu_half), r}
+			// rand.Seed(uint64(time.Now().UnixNano()))
+			// t := rand.Intn(Cpu_max - Cpu_min) + Cpu_min
+			// fmt.Println(t)
+			hex_slice_index := fmt.Sprintf("%04x", j + 515)
+			sliceResource := int(resource_poisson.Rand()) * 100
+			s := SliceList {
+				// snssai = sst(2bit) + sd(6bit)
+				// sst = 01
+				// sd first two bit defined by "hex_tenant_index"
+				// sd last four bit defined by "hex_slice_index"
+				// sd last four bit start by 0203
+				// hex 0203 = dec 515
+				Snssai:   "0x01" + hex_tenant_index + hex_slice_index,
+				Ngci:     gnb_tenant_dictionary[i],
+				Duration: Slice_time,
+				Resource: sliceResource,
+			}
+			slice_info_dictionary = append(slice_info_dictionary, s)
+		}
+	}
+	nsrtoyaml.WriteToXml("../slice-requests/" + dir + "/" + "slice-info-dictionary.yaml", slice_info_dictionary)
 }
 
-
-
 // generate network slice request set (dir of set, timewindow num, )
-func RequsetGenerator(dir string, ) {
+func RequsetGenerator(dir string, timewindow_num int, request_num_each_timewindow int) {
 	
-	for i := 0; i < n; i++ {
+	for i := 0; i < timewindow_num; i++ {
 		var requestSlices []SliceList
-		for j := 0; j < k; j++ {
+		for j := 0; j < request_num_each_timewindow; j++ {
 			s := SliceList {
 				Snssai:   "0x01010203",
 				Ngci:     "466-01-000000010",
@@ -57,58 +77,50 @@ func RequsetGenerator(dir string, ) {
 			}
 			requestSlices = append(requestSlices, s)
 		}
-		writeToXml("../slice-requests/" + dir + "/" + "timewindow-" + i + ".yaml", requestSlices)
+		nsrtoyaml.WriteToXml("../slice-requests/" + dir + "/" + "timewindow-" + strconv.Itoa(i + 1) + ".yaml", requestSlices)
 	}
-	
 }
 
-func checkError(err error) {
+func handleError(err error) {
 	if err != nil {
-        panic(err)
-    }
-}
-
-// wirte network slice request in the same timewindow to yaml
-func writeToXml(src string, request []SliceList) {
-	var timewindow Yaml2GoRequestList
-    timewindow.RequestList.SliceList = request
-
-	data,err := yaml.Marshal(&timewindow)
-	checkError(err)
-	err = ioutil.WriteFile(src,data,0777)
-	checkError(err)
+		// handle error
+		fmt.Println(err)
+		os.Exit(2)
+	}
 }
 
 func main() {
-	// if len(os.Args) != 5 {
-	// 	fmt.Printf("Usage : %s <curl cmd> <specify interface name> <resource pattern> <request ratio>\n", os.Args[0])
-	// 	os.Exit(0)
-	// }
+	if len(os.Args) != 6 {
+		fmt.Printf("Usage : %s <dir name> <tenant number> <slice number of each tenant> <limit of cpu resource> <size of each timewindow>\n", os.Args[0])
+		os.Exit(0)
+	}
 	if (os.Args[1]!="") {
 		Dir = string(os.Args[1])
 	}
 	if (os.Args[2]!="") {
 		i, err := strconv.Atoi(string(os.Args[2]))
-		if err != nil {
-			// handle error
-			fmt.Println(err)
-			os.Exit(2)
-		}
-		Num = i
+		handleError(err)
+		Tenant = i
 	}
 	if (os.Args[3]!="") {
 		i, err := strconv.Atoi(string(os.Args[3]))
-		if err != nil {
-			// handle error
-			fmt.Println(err)
-			os.Exit(2)
-		}
-		Tenant = i
+		handleError(err)
+		SliceNum = i
+	}
+	if (os.Args[4]!="") {
+		i, err := strconv.Atoi(string(os.Args[4]))
+		handleError(err)
+		ResourceLimit = i
+	}
+	if (os.Args[5]!="") {
+		i, err := strconv.Atoi(string(os.Args[5]))
+		handleError(err)
+		TimeWindowSize = i
 	}
 
-	rand.Seed(uint64(time.Now().UnixNano()))
-	t := rand.Intn(Cpu_max - Cpu_min) + Cpu_min
-	Mkdir(Dir)
-	RequsetGenerator(Dir)
-	fmt.Println(t)
+	nsrtoyaml.Mkdir(Dir)
+	SliceInfoGenerator(Dir, Tenant, SliceNum)
+	// RequsetGenerator(Dir)
+	
+	// fmt.Println(hex)
 }

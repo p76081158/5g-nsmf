@@ -3,6 +3,7 @@ package nsrhandler
 import (
     "io/ioutil"
     "log"
+    "sort"
     "strings"
     "strconv"
 
@@ -30,6 +31,8 @@ func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Sli
     if err != nil {
         panic(err)
     }
+    // sort by Resource
+    sort.Sort(ByResource(timewindow.RequestList.SliceList))
     slice_num := len(timewindow.RequestList.SliceList)
     for i := 0; i < slice_num; i++ {
         if forecastingFinish {

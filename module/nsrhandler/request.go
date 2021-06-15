@@ -17,3 +17,10 @@ type SliceList struct {
 	Duration int    `yaml:"duration"`
 	Resource int    `yaml:"resource"`
 }
+
+// ByResource implements sort.Interface based on the Resource field.
+type ByResource []SliceList
+
+func (a ByResource) Len() int           { return len(a) }
+func (a ByResource) Less(i, j int) bool { return a[i].Resource < a[j].Resource }
+func (a ByResource) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }

@@ -17,6 +17,35 @@ type Block = slicebinpack.Block
 type ResourcePattern = generator.ResourcePattern
 type UeGenerator = generator.UeGenerator
 
+// Get all network slice info
+func GetSliceInfo(dir string) []Slice {
+    var timewindow Yaml2GoRequestList
+    var requestSlices []Slice
+    path := "slice-requests/" + dir + "/slice-info-dictionary.yaml"
+    yamlFile, err := ioutil.ReadFile(path)
+    if err != nil {
+        log.Printf("yamlFile.Get err   #%v ", err)
+    }
+    err = yaml.Unmarshal(yamlFile, &timewindow)
+    if err != nil {
+        panic(err)
+    }
+
+    slice_num := len(timewindow.RequestList.SliceList)
+    for i := 0; i < slice_num; i++ {
+        s := Slice {
+            Name:     timewindow.RequestList.SliceList[i].Snssai,
+            Width:    timewindow.RequestList.SliceList[i].Duration,
+            Height:   timewindow.RequestList.SliceList[i].Resource,
+            Ngci:     timewindow.RequestList.SliceList[i].Ngci,
+            SubBlock: nil,
+        }
+        requestSlices      = append(requestSlices, s)
+
+    }
+    return requestSlices
+}
+
 // get network slice requests base on test case dir and time_window_id, alse generate ue request pattern
 func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Slice, []UeGenerator) {
     var timewindow Yaml2GoRequestList

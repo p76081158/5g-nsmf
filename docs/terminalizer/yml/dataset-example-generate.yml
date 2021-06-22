@@ -18,12 +18,12 @@ config:
   # Explicitly set the number of columns
   # or use `auto` to take the current
   # number of columns of your shell
-  cols: 118
+  cols: 123
   
   # Explicitly set the number of rows
   # or use `auto` to take the current
   # number of rows of your shell
-  rows: 17
+  rows: 39
   
   # Amount of times to repeat GIF
   # If value is -1, play once
@@ -111,171 +111,143 @@ config:
   
 # Records, feel free to edit them
 records:
-  - delay: 1692
+  - delay: 4893
     content: "(base) \e]0;vcx@vcx-virtual-machine: ~/5g-nsmf/nsrtester\a\e[01;32mvcx@vcx-virtual-machine\e[00m:\e[01;34m~/5g-nsmf/nsrtester\e[00m$ "
-  - delay: 2704
+  - delay: 2047
     content: l
-  - delay: 127
+  - delay: 143
     content: s
-  - delay: 1434
-    content: ' '
-  - delay: 1675
-    content: .
-  - delay: 128
-    content: .
-  - delay: 292
-    content: /
-  - delay: 934
-    content: s
-  - delay: 63
-    content: l
-  - delay: 493
-    content: "\aice-"
-  - delay: 534
-    content: c
-  - delay: 340
-    content: "\b\e[K"
-  - delay: 99
-    content: r
-  - delay: 209
-    content: equests/
-  - delay: 1712
-    content: D
-  - delay: 226
-    content: "\aataSet-"
-  - delay: 945
-    content: E
-  - delay: 225
-    content: xample/
-  - delay: 903
-    content: "\r\n"
-  - delay: 22
-    content: "DataSet-parameter.yaml\r\n(base) \e]0;vcx@vcx-virtual-machine: ~/5g-nsmf/nsrtester\a\e[01;32mvcx@vcx-virtual-machine\e[00m:\e[01;34m~/5g-nsmf/nsrtester\e[00m$ "
-  - delay: 2176
-    content: ls ../slice-requests/DataSet-Example/
-  - delay: 1893
-    content: 'DataSet-parameter.yaml '
-  - delay: 1245
-    content: "\r\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C"
-  - delay: 558
-    content: "\e[C"
-  - delay: 182
-    content: "\e[C"
-  - delay: 519
-    content: "\b\e[1P"
-  - delay: 142
-    content: "\b\e[1P"
-  - delay: 251
-    content: "\e[1@c"
-  - delay: 94
-    content: "\e[1@a"
-  - delay: 259
-    content: "\e[1@t"
-  - delay: 648
-    content: "\r\n"
-  - delay: 11
-    content: "datasetInfo:\r\n  name: DataSet-Example    # name of the dataset\r\n  ngciList:                # tenants list\r\n    - 466-01-000000010\r\n    - 466-11-000000010\r\n    - 466-93-000000010\r\n  sliceNum: 10             # slice number of each tenants\r\n  extraRequest: 1          # each timewindow has n network slice requests ( n = tenant num + extraRequest, e.g. n = 3 + 1 )\r\n  testNum: 5               # how many test case in this dataset\r\n  resource:\r\n    cpu:\r\n      limit: 1000          # cpu request limit  (1000 = 1 cpu core)\r\n      lambda: 500          # generate slice reqeusted cpu by poisson distribution\r\n    bandwidth:\r\n      limit: 10            # bandwidth reqeust limit\r\n      lambda: 5            # generate slice reqeusted cpu by poisson distribution\r\n    duration: 300          # duration of slice reqeust   \r\n  timewindow: 600          # duration of each timewindow\r\n  forecastBlockSize: 150   # forecasted block size of network slice request, e.g. each network slice reqeust's duration is 300, so each slice requests will be divided into two sub slice requests (300/150=2)(base) \e]0;vcx@vcx-virtual-machine: ~/5g-nsmf/nsrtester\a\e[01;32mvcx@vcx-virtual-machine\e[00m:\e[01;34m~/5g-nsmf/nsrtester\e[00m$ "
-  - delay: 9301
-    content: .
-  - delay: 106
-    content: /
-  - delay: 539
-    content: "\b\e[K"
-  - delay: 237
-    content: "\b\e[K"
-  - delay: 233
-    content: "\r\n(base) \e]0;vcx@vcx-virtual-machine: ~/5g-nsmf/nsrtester\a\e[01;32mvcx@vcx-virtual-machine\e[00m:\e[01;34m~/5g-nsmf/nsrtester\e[00m$ "
-  - delay: 160
-    content: "\r\n(base) \e]0;vcx@vcx-virtual-machine: ~/5g-nsmf/nsrtester\a\e[01;32mvcx@vcx-virtual-machine\e[00m:\e[01;34m~/5g-nsmf/nsrtester\e[00m$ "
-  - delay: 1111
-    content: .
-  - delay: 57
-    content: /
-  - delay: 1905
-    content: 'n'
-  - delay: 71
-    content: s
-  - delay: 220
-    content: 'rtester '
-  - delay: 1864
-    content: D
-  - delay: 429
-    content: a
-  - delay: 400
-    content: t
-  - delay: 79
-    content: a
-  - delay: 1039
-    content: "\a"
-  - delay: 1503
-    content: S
-  - delay: 329
-    content: e
   - delay: 206
-    content: t
-  - delay: 2116
-    content: '-'
-  - delay: 605
-    content: E
-  - delay: 780
-    content: a
-  - delay: 694
-    content: "\b\e[K"
-  - delay: 167
-    content: x
-  - delay: 433
-    content: a
-  - delay: 420
-    content: m
-  - delay: 609
-    content: p
-  - delay: 304
+    content: ' '
+  - delay: 1669
+    content: .
+  - delay: 179
+    content: .
+  - delay: 84
+    content: /
+  - delay: 855
+    content: s
+  - delay: 46
     content: l
-  - delay: 166
+  - delay: 218
+    content: "\aice-"
+  - delay: 711
+    content: r
+  - delay: 278
+    content: equests/
+  - delay: 1537
+    content: D
+  - delay: 268
+    content: "\aataSet-"
+  - delay: 710
+    content: E
+  - delay: 276
+    content: xample/
+  - delay: 1156
+    content: "\r\nDataSet-parameter.yaml\r\n(base) \e]0;vcx@vcx-virtual-machine: ~/5g-nsmf/nsrtester\a\e[01;32mvcx@vcx-virtual-machine\e[00m:\e[01;34m~/5g-nsmf/nsrtester\e[00m$ "
+  - delay: 1884
+    content: ls ../slice-requests/DataSet-Example/
+  - delay: 1293
+    content: 'DataSet-parameter.yaml '
+  - delay: 3186
+    content: "\r\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C"
+  - delay: 608
+    content: "\e[C"
+  - delay: 411
+    content: "\e[C"
+  - delay: 465
+    content: "\b\e[1P"
+  - delay: 145
+    content: "\b\e[1P"
+  - delay: 1155
+    content: "\e[1@c"
+  - delay: 32
+    content: "\e[1@a"
+  - delay: 574
+    content: "\e[1@t"
+  - delay: 841
+    content: "\r\ndatasetInfo:\r\n  name: DataSet-1          # name of the dataset\r\n  ngciList:                # tenants list\r\n    - 466-01-000000010\r\n    - 466-11-000000010\r\n    - 466-93-000000010\r\n  sliceNum: 10             # slice number of each tenants\r\n  extraRequest: 1          # each timewindow has n network slice requests ( n = tenant num + extraRequest, e.g. n = 3 + 1 )\r\n  testNum: 5               # how many test case in this dataset\r\n  resource:\r\n    cpu:\r\n      limit: 1000          # cpu request limit  (1000 = 1 cpu core)\r\n      lambda: 500          # generate slice reqeusted cpu by poisson distribution\r\n      discount: 0.5        # forecasting discount\r\n    bandwidth:\r\n      limit: 10            # bandwidth reqeust limit\r\n      lambda: 5            # generate slice reqeusted cpu by poisson distribution\r\n      discount: 0.5        # forecasting discount\r\n    duration: 300          # duration of slice reqeust   \r\n  timewindow: 600          # duration of each timewindow\r\n  forecastBlockSize: 150   # forecasted block size of network slice request, e.g. each network slice reqeust's duration is 300, so each slice requests will be divided into two sub slice requests (300/150=2)(base) \e]0;vcx@vcx-virtual-machine: ~/5g-nsmf/nsrtester\a\e[01;32mvcx@vcx-virtual-machine\e[00m:\e[01;34m~/5g-nsmf/nsrtester\e[00m$ "
+  - delay: 2754
+    content: "\r\n(base) \e]0;vcx@vcx-virtual-machine: ~/5g-nsmf/nsrtester\a\e[01;32mvcx@vcx-virtual-machine\e[00m:\e[01;34m~/5g-nsmf/nsrtester\e[00m$ "
+  - delay: 4592
+    content: .
+  - delay: 88
+    content: /
+  - delay: 1360
+    content: 'n'
+  - delay: 190
+    content: 'srtester '
+  - delay: 3221
+    content: D
+  - delay: 683
+    content: a
+  - delay: 1055
+    content: t
+  - delay: 220
+    content: a
+  - delay: 996
+    content: S
+  - delay: 292
     content: e
-  - delay: 2824
+  - delay: 198
+    content: t
+  - delay: 741
+    content: '-'
+  - delay: 905
+    content: E
+  - delay: 333
+    content: x
+  - delay: 432
+    content: a
+  - delay: 135
+    content: m
+  - delay: 493
+    content: p
+  - delay: 257
+    content: l
+  - delay: 142
+    content: e
+  - delay: 2169
     content: "\r\n"
-  - delay: 70
+  - delay: 78
     content: "[466-01-000000010 466-11-000000010 466-93-000000010]\r\n"
-  - delay: 29
+  - delay: 33
     content: "create network slice request set :  DataSet-Example/test-1\r\n"
-  - delay: 114
-    content: "create network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\n"
-  - delay: 9
-    content: "create network slice request set :  DataSet-Example/test-1/466-01-000000010\r\n"
-  - delay: 11
-    content: "create network slice request set :  DataSet-Example/test-1/466-01-000000010\r\n"
-  - delay: 12
-    content: "create network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\n"
+  - delay: 130
+    content: "create network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2\r\n"
+  - delay: 128
+    content: "create network slice request set :  DataSet-Example/test-2/466-01-000000010\r\n"
+  - delay: 23
+    content: "create network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\n"
+  - delay: 20
+    content: "create network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3\r\n"
+  - delay: 151
+    content: "create network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\n"
+  - delay: 5
+    content: "create network slice request set :  DataSet-Example/test-3/466-01-000000010\r\n"
+  - delay: 8
+    content: "create network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\n"
   - delay: 7
-    content: "create network slice request set :  DataSet-Example/test-1/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\n"
-  - delay: 5
-    content: "create network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-1/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2\r\n"
-  - delay: 109
-    content: "create network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\n"
-  - delay: 19
-    content: "create network slice request set :  DataSet-Example/test-2/466-93-000000010\r\n"
-  - delay: 5
-    content: "create network slice request set :  DataSet-Example/test-2/466-93-000000010\r\n"
-  - delay: 11
-    content: "create network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-2/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3\r\n"
-  - delay: 114
-    content: "create network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\n"
-  - delay: 17
-    content: "create network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4\r\n"
-  - delay: 109
-    content: "create network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\n"
+    content: "create network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\n"
   - delay: 6
-    content: "create network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5\r\n"
-  - delay: 99
-    content: "create network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\n(base) \e]0;vcx@vcx-virtual-machine: ~/5g-nsmf/nsrtester\a\e[01;32mvcx@vcx-virtual-machine\e[00m:\e[01;34m~/5g-nsmf/nsrtester\e[00m$ "
-  - delay: 2663
+    content: "create network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\n"
+  - delay: 6
+    content: "create network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\n"
+  - delay: 6
+    content: "create network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-3/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4\r\n"
+  - delay: 113
+    content: "create network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-4/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5\r\n"
+  - delay: 106
+    content: "create network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\n"
+  - delay: 5
+    content: "create network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-01-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-11-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\ncreate network slice request set :  DataSet-Example/test-5/466-93-000000010\r\n(base) \e]0;vcx@vcx-virtual-machine: ~/5g-nsmf/nsrtester\a\e[01;32mvcx@vcx-virtual-machine\e[00m:\e[01;34m~/5g-nsmf/nsrtester\e[00m$ "
+  - delay: 2767
     content: ./nsrtester DataSet-Example
-  - delay: 148
+  - delay: 160
     content: "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bcat ../slice-requests/DataSet-Example/DataSet-parameter.yaml "
-  - delay: 157
+  - delay: 506
     content: "\r\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[C\e[24Pls ../slice-requests/DataSet-Example/"
-  - delay: 1764
+  - delay: 1540
     content: "\r\nDataSet-parameter.yaml  \e[0m\e[01;34mtest-1\e[0m  \e[01;34mtest-2\e[0m  \e[01;34mtest-3\e[0m  \e[01;34mtest-4\e[0m  \e[01;34mtest-5\e[0m\r\n(base) \e]0;vcx@vcx-virtual-machine: ~/5g-nsmf/nsrtester\a\e[01;32mvcx@vcx-virtual-machine\e[00m:\e[01;34m~/5g-nsmf/nsrtester\e[00m$ "
-  - delay: 4107
+  - delay: 3879
     content: "logout\r\n"

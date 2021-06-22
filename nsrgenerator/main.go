@@ -38,7 +38,7 @@ func handleError(err error) {
 
 func main() {
 	if len(os.Args) != 11 {
-		fmt.Printf("Usage : %s <dir name> <tenant number> <slice number of each tenant> <limit of cpu resource> <size of each timewindow> <lambda of cpu resource>\n", os.Args[0])
+		fmt.Printf("Usage : %s <dir name> <tenant number> <slice number of each tenant> <limit of cpu resource> <lambda of cpu resource> <discount of cpu resource> <limit of bandwidth resource> <lambda of bandwidth resource> <discount of bandwidth resource> <size of each timewindow>\n", os.Args[0])
 		os.Exit(0)
 	}
 	if (os.Args[1]!="") {

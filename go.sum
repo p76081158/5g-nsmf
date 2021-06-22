@@ -1,3 +1,5 @@
+github.com/Arafatk/glot v0.0.0-20180312013246-79d5219000f0 h1:buG0FAUZtOwl9c+RdnQo3cfZhTnY2OY24J3t+jpeb9Y=
+github.com/Arafatk/glot v0.0.0-20180312013246-79d5219000f0/go.mod h1:o0O8gFiTfVp4g5QcQJ1iMLw6ROiy9BITaiBbEiwz9h8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/getlantern/byteexec v0.0.0-20170405023437-4cfb26ec74f4/go.mod h1:4WCQkaCIwta0KlF9bQZA1jYqp8bzIS2PeCqjnef8nZ8=
 github.com/getlantern/context v0.0.0-20190109183933-c447772a6520/go.mod h1:L+mq6/vvYHKjCX2oez0CgEAJmbq1fbb/oNJIWQkBybY=
@@ -36,6 +38,18 @@ github.com/p76081158/free5gc-nssmf v0.0.0-20210521125546-8d0aa076070f h1:KHeJ/Lu
 github.com/p76081158/free5gc-nssmf v0.0.0-20210521125546-8d0aa076070f/go.mod h1:aOucxM7LXs+dsU8d0ouIU2j88D4NVPrOyBjDyzsLJHo=
 github.com/p76081158/free5gc-nssmf v0.0.0-20210525030650-9afb78e6669d h1:C1b5E+ZVPSVcKjBKkJQbDqdHOOzLF1oKO9WXzJQVo9U=
 github.com/p76081158/free5gc-nssmf v0.0.0-20210525030650-9afb78e6669d/go.mod h1:aOucxM7LXs+dsU8d0ouIU2j88D4NVPrOyBjDyzsLJHo=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210612022855-d0f07aeea66a h1:nd9n/oA7kOCtjpTQzw+rj7e55pksQCLLfw/2RrgMY2I=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210612022855-d0f07aeea66a/go.mod h1:aOucxM7LXs+dsU8d0ouIU2j88D4NVPrOyBjDyzsLJHo=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210616150938-da38d6ca07d3 h1:AUWGuFPqZtUuI+ISNGcCwS9+qNXE5VShmJIUC79aHcU=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210616150938-da38d6ca07d3/go.mod h1:aOucxM7LXs+dsU8d0ouIU2j88D4NVPrOyBjDyzsLJHo=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210616152443-2d382ca5f382 h1:BL/x3w0OncAaJKd4Hl3Ni7VKFLHusyn3vkk6hDUSwVo=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210616152443-2d382ca5f382/go.mod h1:aOucxM7LXs+dsU8d0ouIU2j88D4NVPrOyBjDyzsLJHo=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210616153041-6c775834dcc4 h1:cszfofZPuNEiJoE3ulnQs0a4fX6wlksDgdXy3ZyfO+o=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210616153041-6c775834dcc4/go.mod h1:aOucxM7LXs+dsU8d0ouIU2j88D4NVPrOyBjDyzsLJHo=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210616165944-b17d54380c37 h1:3k5EzOOVrr7aTQ3ww0Wdw3wHRVHZ4vVFiCZgNnWbnU4=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210616165944-b17d54380c37/go.mod h1:aOucxM7LXs+dsU8d0ouIU2j88D4NVPrOyBjDyzsLJHo=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210616172500-b20fa150920c h1:LfFOXXzivdfMhifittEyhrwbmOca9aT6oQXB1PqhtMs=
+github.com/p76081158/free5gc-nssmf v0.0.0-20210616172500-b20fa150920c/go.mod h1:aOucxM7LXs+dsU8d0ouIU2j88D4NVPrOyBjDyzsLJHo=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=

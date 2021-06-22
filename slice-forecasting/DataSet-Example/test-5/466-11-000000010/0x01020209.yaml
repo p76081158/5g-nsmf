@@ -6,4 +6,4 @@ forecastingBlock:
 - block: 2
   duration: 150
   cpu: 200
-  bandwidth: 1
+  bandwidth: 5

@@ -1,5 +1,5 @@
 datasetInfo:
-  name: DataSet-Example    # name of the dataset
+  name: DataSet-1          # name of the dataset
   ngciList:                # tenants list
     - 466-01-000000010
     - 466-11-000000010
@@ -11,9 +11,11 @@ datasetInfo:
     cpu:
       limit: 1000          # cpu request limit  (1000 = 1 cpu core)
       lambda: 500          # generate slice reqeusted cpu by poisson distribution
+      discount: 0.5        # forecasting discount
     bandwidth:
       limit: 10            # bandwidth reqeust limit
       lambda: 5            # generate slice reqeusted cpu by poisson distribution
+      discount: 0.5        # forecasting discount
     duration: 300          # duration of slice reqeust   
   timewindow: 600          # duration of each timewindow
   forecastBlockSize: 150   # forecasted block size of network slice request, e.g. each network slice reqeust's duration is 300, so each slice requests will be divided into two sub slice requests (300/150=2)

@@ -26,8 +26,8 @@ func (n *node) find(width, height int, algorithm string, tree []*node) *node {
 		return n.find_right_top(width, height)
 	case "top-right":
 		return n.find_top_right(width, height)
-	case "trash-size":
-		return n.find_trash_size(width, height, tree)
+	case "leaf-size":
+		return n.find_leaf_size(width, height, tree)
 	case "trash-recycle":
 		return n.find_top_right(width, height)
 	}

@@ -1,18 +1,32 @@
 package slicebinpack
 
 import (
+	"fmt"
 	"time"
-	"math/rand"
 	"image"
 	"image/color"
 	"image/draw"
     "image/png"
+	"log"
+	"math/rand"
 	"os"
+	"os/exec"
 )
 
-func DrawBinPackResult(drawinfos []DrawBlock, width int, height int, scale_ratio int) {
+// create dir for new set of network slice requests
+func Mkdir(dir string) {
+	sh_cmd := "mkdir -p logs/binpack/" + dir
+	input_cmd := sh_cmd
+	err := exec.Command("/bin/sh", "-c", input_cmd).Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("create dir for bin packing picture : logs/binapck/", dir)
+}
+
+func DrawBinPackResult(dir string, id string, drawinfos []DrawBlock, width int, height int, scale_ratio int) {
 	img := image.NewRGBA(image.Rect(0, height / scale_ratio * (-1), width / scale_ratio, 0))
-	new_png_file := "logs/binpack/result.png"
+	new_png_file := "logs/binpack/" + dir +"/timewindow-" + id +".png"
 	for i :=0; i< len(drawinfos); i++ {
 		t := time.Now().UnixNano()
 		r := rand.New(rand.NewSource(t))

@@ -1,7 +1,7 @@
 package slicebinpack
 
 // search size large first
-func (n *node) find_trash_size(width, height int, tree []*node) *node {
+func (n *node) find_leaf_size(width, height int, tree []*node) *node {
 	max := 0
 	index := -1
 	for i := 0; i < len(tree); i++ {

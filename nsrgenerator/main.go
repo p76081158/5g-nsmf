@@ -90,10 +90,8 @@ func main() {
 		TimeWindowSize = i
 	}
 
-
 	nsrtoyaml.Mkdir(Dir)
-	generator.SliceInfoGenerator(Dir, gnb_tenant_dictionary, SliceNum, Cpu_max, Cpu_lambda, BandwidthLimit, Bandwidth_lambda, Slice_duration)
-	generator.RequsetGenerator(Dir, Tenant, SliceNum, ExtraSliceNum)
+	generator.SliceInfoGenerator(Dir, gnb_tenant_dictionary, SliceNum, Cpu_max, Cpu_lambda, BandwidthLimit, Bandwidth_lambda, Slice_duration, ExtraSliceNum)
 	generator.ForecaseGenerator(Dir, ForecastBlockSize, Cpu_max, Cpu_discount, BandwidthLimit, Bandwidth_discount)
 }
 

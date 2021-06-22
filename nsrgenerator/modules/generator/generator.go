@@ -2,12 +2,8 @@ package generator
 
 import (
 	"fmt"
-	// "log"
 	"math"
-	// "os"
-	// "os/exec"
 	"time"
-	// "strings"
 	"strconv"
 
 	"github.com/p76081158/5g-nsmf/modules/nsrhandler"
@@ -25,10 +21,10 @@ type ForecastingBlock = nsrhandler.ForecastingBlock
 var Cpu_base = 100
 var Cpu_min = 2
 var Bandwidth_min = 1
-var slice_info_dictionary []SliceList
 
 // generate network slice info of each tenant
-func SliceInfoGenerator(dir string, gnb_tenant_dictionary []string, num_slice int, cpu_max int, cpu_lambda int, bandwidthLimit int, bandwidth_lambda int, slice_duration int) {
+func SliceInfoGenerator(dir string, gnb_tenant_dictionary []string, num_slice int, cpu_max int, cpu_lambda int, bandwidthLimit int, bandwidth_lambda int, slice_duration int, extra_request_num_each_timewindow int) {
+	var slice_info_dictionary []SliceList
 	num_tenant := len(gnb_tenant_dictionary)
 	for i := 0; i < num_tenant; i++ {
 		hex_tenant_index := fmt.Sprintf("%02x", i + 1)
@@ -36,9 +32,6 @@ func SliceInfoGenerator(dir string, gnb_tenant_dictionary []string, num_slice in
 			r := rand.New(rand.NewSource(uint64(time.Now().UnixNano())))
 			cpu_poisson := distuv.Poisson{float64(cpu_lambda), r}
 			bandwidth_poisson := distuv.Poisson{float64(bandwidth_lambda), r}
-			// rand.Seed(uint64(time.Now().UnixNano()))
-			// t := rand.Intn(Cpu_max - Cpu_min) + Cpu_min
-			// fmt.Println(t)
 			hex_slice_index := fmt.Sprintf("%04x", j + 515)
 			sliceCpu := int(cpu_poisson.Rand()) * Cpu_base
 			slicebandwidth := int(bandwidth_poisson.Rand())
@@ -69,13 +62,13 @@ func SliceInfoGenerator(dir string, gnb_tenant_dictionary []string, num_slice in
 		}
 	}
 	nsrtoyaml.WriteToXml("../slice-requests/" + dir + "/" + "slice-info-dictionary.yaml", slice_info_dictionary)
+	RequsetGenerator(dir, slice_info_dictionary, num_tenant, num_slice, extra_request_num_each_timewindow)
 }
 
 // generate network slice request in each timewindow (dir of set, num of tenant, num of network slice each tenant, num of extra request)
 // basic request number = tenant number
-func RequsetGenerator(dir string, num_tenant int, num_slice int, extra_request_num_each_timewindow int) {
+func RequsetGenerator(dir string, slice_info_dictionary []SliceList, num_tenant int, num_slice int, extra_request_num_each_timewindow int) {
 	timewindow_num := int(math.Pow(float64(num_slice), float64(num_tenant)))
-
 	for i := 0; i < timewindow_num; i++ {
 		var requestSlices []SliceList
 		// append by tenant id k
@@ -108,7 +101,7 @@ func RequsetGenerator(dir string, num_tenant int, num_slice int, extra_request_n
 	}
 }
 
-// 
+// generate forecaseting blocks for each slice 
 func ForecaseGenerator(dir string, blcok_size int, cpu_max int, cpu_discount float64, bandwidthLimit int, bandwidth_discount float64) {
 	slicelist := nsrtoyaml.GetSliceInfo(dir)
 	for i := 0; i < len(slicelist); i++ {

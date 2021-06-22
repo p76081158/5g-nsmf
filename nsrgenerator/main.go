@@ -91,7 +91,7 @@ func main() {
 	}
 
 	nsrtoyaml.Mkdir(Dir)
-	generator.NetworkSliceGenerator(Dir, gnb_tenant_dictionary, SliceNum, Cpu_max, Cpu_lambda, BandwidthLimit, Bandwidth_lambda, Slice_duration, ExtraSliceNum)
+	generator.SliceRequestGenerator(Dir, gnb_tenant_dictionary, SliceNum, Cpu_max, Cpu_lambda, BandwidthLimit, Bandwidth_lambda, Slice_duration, ExtraSliceNum)
 	generator.ForecaseGenerator(Dir, ForecastBlockSize, Cpu_max, Cpu_discount, BandwidthLimit, Bandwidth_discount)
 }
 

@@ -23,7 +23,7 @@ var Cpu_min = 2
 var Bandwidth_min = 1
 
 // generate network slice info of each tenant and slice request
-func NetworkSliceGenerator(dir string, gnb_tenant_dictionary []string, num_slice int, cpu_max int, cpu_lambda int, bandwidthLimit int, bandwidth_lambda int, slice_duration int, extra_request_num_each_timewindow int) {
+func SliceRequestGenerator(dir string, gnb_tenant_dictionary []string, num_slice int, cpu_max int, cpu_lambda int, bandwidthLimit int, bandwidth_lambda int, slice_duration int, extra_request_num_each_timewindow int) {
 	var slice_info_dictionary []SliceList
 	num_tenant := len(gnb_tenant_dictionary)
 	for i := 0; i < num_tenant; i++ {

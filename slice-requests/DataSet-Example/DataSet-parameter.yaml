@@ -1,0 +1,19 @@
+datasetInfo:
+  name: DataSet-Example    # name of the dataset
+  ngciList:                # tenants list
+    - 466-01-000000010
+    - 466-11-000000010
+    - 466-93-000000010
+  sliceNum: 10             # slice number of each tenants
+  extraRequest: 1          # each timewindow has n network slice requests ( n = tenant num + extraRequest, e.g. n = 3 + 1 )
+  testNum: 5               # how many test case in this dataset
+  resource:
+    cpu:
+      limit: 1000          # cpu request limit  (1000 = 1 cpu core)
+      lambda: 500          # generate slice reqeusted cpu by poisson distribution
+    bandwidth:
+      limit: 10            # bandwidth reqeust limit
+      lambda: 5            # generate slice reqeusted cpu by poisson distribution
+    duration: 300          # duration of slice reqeust   
+  timewindow: 600          # duration of each timewindow
+  forecastBlockSize: 150   # forecasted block size of network slice request, e.g. each network slice reqeust's duration is 300, so each slice requests will be divided into two sub slice requests (300/150=2)

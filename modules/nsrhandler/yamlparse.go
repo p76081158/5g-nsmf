@@ -57,7 +57,7 @@ func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Sli
     slicelist_bandwidth = timewindow.RequestList.SliceList
     sort.Sort(ByCpu(slicelist_cpu))
     sort.Sort(ByBandwidth(slicelist_bandwidth))
-    
+
     slice_num := len(timewindow.RequestList.SliceList)
     for i := 0; i < slice_num; i++ {
         if forecastingFinish {
@@ -78,10 +78,10 @@ func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Sli
                 SubBlock: subBlockCpu,
             }
             s_bandwidth := Slice {
-                Name:     slicelist_bandwidth.Snssai,
-                Width:    slicelist_bandwidth.Duration,
-                Height:   slicelist_bandwidth.Bandwidth,
-                Ngci:     slicelist_bandwidth.Ngci,
+                Name:     slicelist_bandwidth[i].Snssai,
+                Width:    slicelist_bandwidth[i].Duration,
+                Height:   slicelist_bandwidth[i].Bandwidth,
+                Ngci:     slicelist_bandwidth[i].Ngci,
                 SubBlock: subBlockBandwidth,
             }
             u := UeGenerator {
@@ -102,10 +102,10 @@ func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Sli
                 SubBlock: nil,
             }
             s_bandwidth := Slice {
-                Name:     slicelist_bandwidth.Snssai,
-                Width:    slicelist_bandwidth.Duration,
-                Height:   slicelist_bandwidth.Bandwidth,
-                Ngci:     slicelist_bandwidth.Ngci,
+                Name:     slicelist_bandwidth[i].Snssai,
+                Width:    slicelist_bandwidth[i].Duration,
+                Height:   slicelist_bandwidth[i].Bandwidth,
+                Ngci:     slicelist_bandwidth[i].Ngci,
                 SubBlock: nil,
             }
             u := UeGenerator {
@@ -137,7 +137,7 @@ func GetForecastingBlock(dir string, sliceID string) ([]Block, []Block, []Resour
     yamlFile, err := ioutil.ReadFile(path)
     if err != nil {
         log.Printf("yamlFile.Get err   #%v ", err)
-        return nil, nil
+        return nil, nil, nil
     }
     err = yaml.Unmarshal(yamlFile, &forecasting)
     if err != nil {

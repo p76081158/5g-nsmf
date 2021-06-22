@@ -18,9 +18,9 @@ type ResourcePattern = generator.ResourcePattern
 type UeGenerator = generator.UeGenerator
 
 // Get all network slice info
-func GetSliceInfo(dir string) []Slice {
+func GetSliceInfo(dir string) []SliceList {
     var timewindow Yaml2GoRequestList
-    var requestSlices []Slice
+    var requestSlicesList []SliceList
     path := "slice-requests/" + dir + "/slice-info-dictionary.yaml"
     yamlFile, err := ioutil.ReadFile(path)
     if err != nil {
@@ -30,26 +30,15 @@ func GetSliceInfo(dir string) []Slice {
     if err != nil {
         panic(err)
     }
-
-    slice_num := len(timewindow.RequestList.SliceList)
-    for i := 0; i < slice_num; i++ {
-        s := Slice {
-            Name:     timewindow.RequestList.SliceList[i].Snssai,
-            Width:    timewindow.RequestList.SliceList[i].Duration,
-            Height:   timewindow.RequestList.SliceList[i].Resource,
-            Ngci:     timewindow.RequestList.SliceList[i].Ngci,
-            SubBlock: nil,
-        }
-        requestSlices      = append(requestSlices, s)
-
-    }
-    return requestSlices
+    requestSlicesList = timewindow.RequestList.SliceList
+    return requestSlicesList
 }
 
 // get network slice requests base on test case dir and time_window_id, alse generate ue request pattern
 func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Slice, []UeGenerator) {
     var timewindow Yaml2GoRequestList
-    var requestSlices []Slice
+    var requestSlicesCpu []Slice
+    var requestSlicesBandwidth []Slice
     var requestUeGenerator []UeGenerator
     path := "slice-requests/" + dir + "/timewindow-" + strconv.Itoa(windowID) + ".yaml"
     yamlFile, err := ioutil.ReadFile(path)
@@ -66,34 +55,49 @@ func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Sli
     for i := 0; i < slice_num; i++ {
         if forecastingFinish {
             sliceID := timewindow.RequestList.SliceList[i].Ngci + "," + timewindow.RequestList.SliceList[i].Snssai
-            subBlock, rps := GetForecastingBlock(dir, sliceID)
+            subBlockCpu, subBlockBandwidth, rps := GetForecastingBlock(dir, sliceID)
             if rps == nil {
                 rps = []ResourcePattern{}
                 rps = append(rps, ResourcePattern {
-                    Resource:  timewindow.RequestList.SliceList[i].Resource,
+                    Resource:  timewindow.RequestList.SliceList[i].Cpu,
                     Duration:  timewindow.RequestList.SliceList[i].Duration,
                 })
             }
-            s := Slice {
+            s_cpu := Slice {
                 Name:     timewindow.RequestList.SliceList[i].Snssai,
                 Width:    timewindow.RequestList.SliceList[i].Duration,
-                Height:   timewindow.RequestList.SliceList[i].Resource,
+                Height:   timewindow.RequestList.SliceList[i].Cpu,
                 Ngci:     timewindow.RequestList.SliceList[i].Ngci,
-                SubBlock: subBlock,
+                SubBlock: subBlockCpu,
+            }
+            s_bandwidth := Slice {
+                Name:     timewindow.RequestList.SliceList[i].Snssai,
+                Width:    timewindow.RequestList.SliceList[i].Duration,
+                Height:   timewindow.RequestList.SliceList[i].Bandwidth,
+                Ngci:     timewindow.RequestList.SliceList[i].Ngci,
+                SubBlock: subBlockBandwidth,
             }
             u := UeGenerator {
                 Name:     timewindow.RequestList.SliceList[i].Snssai,
                 Ngci:     timewindow.RequestList.SliceList[i].Ngci,
                 RPs:      rps,
             }
-            requestSlices      = append(requestSlices, s)
-            requestUeGenerator = append(requestUeGenerator, u)
+            requestSlicesCpu       = append(requestSlicesCpu, s_cpu)
+            requestSlicesBandwidth = append(requestSlicesBandwidth, s_bandwidth)
+            requestUeGenerator     = append(requestUeGenerator, u)
         } else {
             rps := []ResourcePattern{}
-            s := Slice {
+            s_cpu := Slice {
                 Name:     timewindow.RequestList.SliceList[i].Snssai,
                 Width:    timewindow.RequestList.SliceList[i].Duration,
-                Height:   timewindow.RequestList.SliceList[i].Resource,
+                Height:   timewindow.RequestList.SliceList[i].Cpu,
+                Ngci:     timewindow.RequestList.SliceList[i].Ngci,
+                SubBlock: nil,
+            }
+            s_bandwidth := Slice {
+                Name:     timewindow.RequestList.SliceList[i].Snssai,
+                Width:    timewindow.RequestList.SliceList[i].Duration,
+                Height:   timewindow.RequestList.SliceList[i].Bandwidth,
                 Ngci:     timewindow.RequestList.SliceList[i].Ngci,
                 SubBlock: nil,
             }
@@ -101,12 +105,13 @@ func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Sli
                 Name:     timewindow.RequestList.SliceList[i].Snssai,
                 Ngci:     timewindow.RequestList.SliceList[i].Ngci,
                 RPs:      append(rps, ResourcePattern {
-                    Resource:  timewindow.RequestList.SliceList[i].Resource,
+                    Resource:  timewindow.RequestList.SliceList[i].Cpu,
                     Duration:  timewindow.RequestList.SliceList[i].Duration,
                 }),
             }
-            requestSlices      = append(requestSlices, s)
-            requestUeGenerator = append(requestUeGenerator, u)
+            requestSlicesCpu       = append(requestSlicesCpu, s_cpu)
+            requestSlicesBandwidth = append(requestSliceBandwidth, s_bandwidth)
+            requestUeGenerator     = append(requestUeGenerator, u)
         }
     }
     return requestSlices, requestUeGenerator
@@ -115,7 +120,8 @@ func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Sli
 // get forecasted network slice and ue request pattern
 func GetForecastingBlock(dir string, sliceID string) ([]Block, []ResourcePattern) {
     var forecasting Yaml2GoForecastingBlock
-    var requestBlock []Block
+    var requestBlockCpu []Block
+    var requestBlockBandwidth []Block
     var resourcePattern []ResourcePattern
     split := strings.Split(sliceID, ",")
     ngci := split[0]
@@ -132,17 +138,24 @@ func GetForecastingBlock(dir string, sliceID string) ([]Block, []ResourcePattern
     }
     block_num := len(forecasting.ForecastingBlock)
     for i := 0; i < block_num; i++ {
-        b := Block {
+        b_cpu := Block {
             Name:     slice + "-" + strconv.Itoa(forecasting.ForecastingBlock[i].Block),
             Width:    forecasting.ForecastingBlock[i].Duration,
-            Height:   forecasting.ForecastingBlock[i].Resource,
+            Height:   forecasting.ForecastingBlock[i].Cpu,
         }
+        b_bandwidth := Block {
+            Name:     slice + "-" + strconv.Itoa(forecasting.ForecastingBlock[i].Block),
+            Width:    forecasting.ForecastingBlock[i].Duration,
+            Height:   forecasting.ForecastingBlock[i].Bandwidth,
+        }
+        // ue cpu resource pattern
         r := ResourcePattern {
             Resource: forecasting.ForecastingBlock[i].Resource,
             Duration: forecasting.ForecastingBlock[i].Duration,
         }
-        requestBlock   = append(requestBlock, b)
-        resourcePattern = append(resourcePattern, r)
+        requestBlockCpu       = append(requestBlockCpu, b_cpu)
+        requestBlockBandwidth = append(requestBlockBandwidth, b_bandwidth)
+        resourcePattern       = append(resourcePattern, r)
     }
-    return requestBlock, resourcePattern
+    return requestBlockCpu, requestBlockBandwidth, resourcePattern
 }

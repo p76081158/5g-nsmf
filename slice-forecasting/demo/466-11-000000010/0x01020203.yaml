@@ -1,7 +1,9 @@
 forecastingBlock:
   - block: 1           # block indes of slice (slice split to multiple blocks)
     duration: 100      # block up time
-    resource: 600      # required resources (cpu, bandwidth)
+    cpu: 600           # required resources (cpu, bandwidth)
+    bandwidth: 3
   - block: 2
     duration: 100
-    resource: 300
+    cpu: 300
+    bandwidth: 3

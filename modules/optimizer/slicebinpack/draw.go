@@ -15,7 +15,7 @@ import (
 
 // create dir for new set of network slice requests
 func Mkdir(dir string) {
-	sh_cmd := "mkdir -p logs/binpack/" + dir
+	sh_cmd := "mkdir -p " + dir
 	input_cmd := sh_cmd
 	err := exec.Command("/bin/sh", "-c", input_cmd).Run()
 	if err != nil {

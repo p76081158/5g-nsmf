@@ -3,7 +3,6 @@ package scheduler
 import (
 	"strings"
 
-	// "fmt"
 	"github.com/p76081158/5g-nsmf/modules/optimizer/slicebinpack"
 	"github.com/p76081158/5g-nsmf/modules/ueransim/ue/generator"
 	"github.com/p76081158/5g-nsmf/api/f5gnssmf"
@@ -25,15 +24,16 @@ func SlicesScheduler(slicesDeploy []SliceDeploy, gnb_ip_dictionary map[string]st
 		end         := slicesDeploy[i].End
 		cpu         := slicesDeploy[i].Resource
 
-		
+		// deploy to kuberenets with replicca 0
+		//f5gnssmf.DeploySliceToCoreNetwork(slice_name[0], gnb_ip, gnb_n3_ip_B, ngci, cpu, cpu_of_user_plane)
+
 		// modify existed network slice or create new network slice
 		if len(slice_name) > 1 && slice_name[1] != "1" {
 			//go SliceModifyServiceCPU(slice_name[0], ngci, cpu, start, duration, end)
 			go f5gnssmf.SliceModifyServiceCPU(slice_name[0], ngci, cpu, start, duration, end)
 		} else {
-			//go ApplySliceToCoreNetwork(slice_name[0], gnb_ip, gnb_n3_ip_B, ngci, cpu, CPUofUserPlane, start, duration, end)
+			//go ApplySliceToCoreNetwork(slice_name[0], ngci, start, duration, end, apply bias) (snssai string, gnb_ip string, gnb_n3_ip_B string, ngci string, cpu int, core_function_cpu int, start int, duration int, end bool, deploy_time_bias float64)
 			go f5gnssmf.ApplySliceToCoreNetwork(slice_name[0], gnb_ip, gnb_n3_ip_B, ngci, cpu, cpu_of_user_plane, start, duration, end, deploy_time_bias)
 		}
 	}
-	
 }

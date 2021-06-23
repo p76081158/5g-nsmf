@@ -42,7 +42,7 @@ func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Sli
     var requestSlicesCpu []Slice
     var requestSlicesBandwidth []Slice
     var requestUeGenerator []UeGenerator
-    path := "slice-requests/" + dir + "/timewindow-" + strconv.Itoa(windowID) + ".yaml"
+    path := dir + "/timewindow-" + strconv.Itoa(windowID) + ".yaml"
     yamlFile, err := ioutil.ReadFile(path)
     if err != nil {
         log.Printf("yamlFile.Get err   #%v ", err)

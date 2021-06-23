@@ -9,7 +9,7 @@ import (
 
 // get number of Timewindow in specific test case
 func GetTestCaseTimewindowNumber(case_dir string) int {
-	test_case_cmd := "ls slice-requests/" + case_dir + "/ | grep -c timewindow-"
+	test_case_cmd := "ls " + case_dir + "/ | grep -c timewindow-"
 	input_cmd := test_case_cmd
 	out, err := exec.Command("/bin/sh", "-c", input_cmd).Output()
     if err != nil {

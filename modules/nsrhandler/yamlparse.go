@@ -35,7 +35,7 @@ func GetSliceInfo(dir string) []SliceList {
 }
 
 // get network slice requests base on test case dir and time_window_id, alse generate ue request pattern
-func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Slice, []Slice, []UeGenerator) {
+func RefreshRequestList(dir string, dir_forecasting string, windowID int, forecastingFinish bool, sort bool) ([]Slice, []Slice, []UeGenerator) {
     var timewindow Yaml2GoRequestList
     var slicelist_cpu []SliceList
     var slicelist_bandwidth []SliceList
@@ -55,14 +55,16 @@ func RefreshRequestList(dir string, windowID int, forecastingFinish bool) ([]Sli
     // sort by Resource
     slicelist_cpu       = timewindow.RequestList.SliceList
     slicelist_bandwidth = timewindow.RequestList.SliceList
-    sort.Sort(ByCpu(slicelist_cpu))
-    sort.Sort(ByBandwidth(slicelist_bandwidth))
+    if sort {
+        sort.Sort(ByCpu(slicelist_cpu))
+        sort.Sort(ByBandwidth(slicelist_bandwidth))
+    }
 
     slice_num := len(timewindow.RequestList.SliceList)
     for i := 0; i < slice_num; i++ {
         if forecastingFinish {
             sliceID := timewindow.RequestList.SliceList[i].Ngci + "," + timewindow.RequestList.SliceList[i].Snssai
-            subBlockCpu, subBlockBandwidth, rps := GetForecastingBlock(dir, sliceID)
+            subBlockCpu, subBlockBandwidth, rps := GetForecastingBlock(dir_forecasting, sliceID)
             if rps == nil {
                 rps = []ResourcePattern{}
                 rps = append(rps, ResourcePattern {
@@ -131,9 +133,9 @@ func GetForecastingBlock(dir string, sliceID string) ([]Block, []Block, []Resour
     var requestBlockBandwidth []Block
     var resourcePattern []ResourcePattern
     split := strings.Split(sliceID, ",")
-    ngci := split[0]
+    ngci  := split[0]
     slice := split[1]
-    path := "slice-forecasting/" + dir + "/" + ngci + "/" + slice + ".yaml"
+    path := dir + "/" + ngci + "/" + slice + ".yaml"
     yamlFile, err := ioutil.ReadFile(path)
     if err != nil {
         log.Printf("yamlFile.Get err   #%v ", err)

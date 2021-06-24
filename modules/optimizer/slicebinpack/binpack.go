@@ -15,34 +15,25 @@
 
 package slicebinpack
 
+// top   == left  child of tree node
+// right == right child of tree node
 type node struct {
 	x, y, width, height int
-	right, top          *node
+	top, right          *node
 }
 
 func (n *node) find(width, height int, algorithm string, tree []*node) *node {
 	switch algorithm {
-	case "right-top":
-		return n.find_right_top(width, height)
-	case "top-right":
-		return n.find_top_right(width, height)
+	case "invert-pre-order":
+		return n.find_invert_pre_order(width, height)
+	case "pre-order":
+		return n.find_pre_order(width, height)
 	case "leaf-size":
 		return n.find_leaf_size(width, height, tree)
 	case "trash-recycle":
-		return n.find_top_right(width, height)
+		return n.find_pre_order(width, height)
 	}
 	return nil
-
-	// if n.right != nil || n.top != nil {
-	// 	right := n.right.find(width, height)
-	// 	if right != nil {
-	// 		return right
-	// 	}
-	// 	return n.top.find(width, height)
-	// } else if width <= n.width && height <= n.height {
-	// 	return n
-	// }
-	// return nil
 }
 
 func (n *node) split(width, height int) *node {
@@ -60,4 +51,32 @@ func (n *node) split(width, height int) *node {
 		height: n.height,
 	}
 	return n
+}
+
+func updateTree(tree []*node, target string, position int) []*node {
+
+	for i := 0; i < len(tree); i++ {
+		if target == "top" {
+			tree[i].y = position
+		} else if target == "right" {
+			tree[i].x = position
+		}
+	}
+
+	return tree
+}
+
+func findTopRight(target *node, right []*node, top []*node) string {
+	var result = "none"
+	for _, t := range top {
+		if t == target {
+			result = "top"
+		}
+	}
+	for _, t := range right {
+		if t == target {
+			result = "right"
+		}
+	}
+	return result
 }

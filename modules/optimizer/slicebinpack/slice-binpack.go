@@ -1,5 +1,9 @@
 package slicebinpack
 
+import (
+	"fmt"
+)
+
 type Block struct {
 	Name     string
 	Width    int
@@ -42,7 +46,6 @@ type Bin struct {
 	Name   string
 	Width  int
 	Height int
-
 	Slices []Slice
 }
 
@@ -57,16 +60,12 @@ func (p *Packer) Pack(algorithm string) {
 	if slices_num == 0 {
 		return
 	}
-	tree_list := []*node{ &root }
+	tree_list       := []*node{ &root }
+	tree_list_right := []*node{}
+	tree_list_top   := []*node{}
 	for i := 0; i < slices_num; i++ {
 		var w, h int
 		sub_slices_num := len(p.Bins.Slices[i].SubBlock)
-		// for case that only change resource used and not split to multiple blocks
-		// if sub_slices_num == 1 {
-		// 	w = p.Bins.Slices[i].SubBlock[0].Width
-		// 	h = p.Bins.Slices[i].SubBlock[0].Height
-		// max_h := 0
-		// max_w := 0
 
 		// choose which node for putting the slice (could be multiple blocks)
 		w, h = 0, 0
@@ -84,17 +83,7 @@ func (p *Packer) Pack(algorithm string) {
 
 		// select algorithm for finding candidate of network slice placement
 		node := root.find(w, h, algorithm, tree_list)
-
-		// for finding the node fit the ma
-		// if sub_slices_num > 1 {
-		// 	for j := 0; j < sub_slices_num; j++ {
-		// 		if p.Bins.Slices[i].SubBlock[j].Height > max_h {
-		// 			max_h = p.Bins.Slices[i].SubBlock[j].Height
-		// 		}
-		// 		max_w += p.Bins.Slices[i].SubBlock[j].Width
-		// 	}
-		// 	node = root.find(max_w, max_h)
-		// }
+		fmt.Println(findTopRight(node, tree_list_right, tree_list_top))
 		if node != nil {
 			// is slice group or not
 			if sub_slices_num > 1 {
@@ -102,8 +91,10 @@ func (p *Packer) Pack(algorithm string) {
 					w = p.Bins.Slices[i].SubBlock[j].Width
                     h = p.Bins.Slices[i].SubBlock[j].Height
 					node = node.split(w, h)
-					tree_list = append(tree_list, node.right)
-					tree_list = append(tree_list, node.top)
+					tree_list       = append(tree_list, node.right)
+					tree_list       = append(tree_list, node.top)
+					tree_list_right = append(tree_list_right, node.right)
+					tree_list_top   = append(tree_list_top, node.top)
 					end := false
 					info := SliceDeploy {
 						Name:     p.Bins.Slices[i].SubBlock[j].Name,
@@ -132,6 +123,8 @@ func (p *Packer) Pack(algorithm string) {
 				node = node.split(w, h)
 				tree_list = append(tree_list, node.right)
 				tree_list = append(tree_list, node.top)
+				tree_list_right = append(tree_list_right, node.right)
+				tree_list_top   = append(tree_list_top, node.top)
 				info := SliceDeploy {
 					Name:     p.Bins.Slices[i].Name,
 					Ngci:     p.Bins.Slices[i].Ngci,

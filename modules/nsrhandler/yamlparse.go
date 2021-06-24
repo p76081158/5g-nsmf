@@ -35,7 +35,7 @@ func GetSliceInfo(dir string) []SliceList {
 }
 
 // get network slice requests base on test case dir and time_window_id, alse generate ue request pattern
-func RefreshRequestList(dir string, dir_forecasting string, windowID int, forecastingFinish bool, sort bool) ([]Slice, []Slice, []UeGenerator) {
+func RefreshRequestList(dir string, dir_forecasting string, windowID int, forecastingFinish bool, sorting bool) ([]Slice, []Slice, []UeGenerator) {
     var timewindow Yaml2GoRequestList
     var slicelist_cpu []SliceList
     var slicelist_bandwidth []SliceList
@@ -55,7 +55,7 @@ func RefreshRequestList(dir string, dir_forecasting string, windowID int, foreca
     // sort by Resource
     slicelist_cpu       = timewindow.RequestList.SliceList
     slicelist_bandwidth = timewindow.RequestList.SliceList
-    if sort {
+    if sorting {
         sort.Sort(ByCpu(slicelist_cpu))
         sort.Sort(ByBandwidth(slicelist_bandwidth))
     }

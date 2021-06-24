@@ -52,10 +52,10 @@ func SliceRequestGenerator(dir string, gnb_tenant_dictionary []string, num_slice
 				// sd last four bit defined by "hex_slice_index"
 				// sd last four bit start by 0203
 				// hex 0203 = dec 515
-				Snssai:   "0x01" + hex_tenant_index + hex_slice_index,
-				Ngci:     gnb_tenant_dictionary[i],
-				Duration: slice_duration,
-				Cpu: sliceCpu,
+				Snssai:    "0x01" + hex_tenant_index + hex_slice_index,
+				Ngci:      gnb_tenant_dictionary[i],
+				Duration:  slice_duration,
+				Cpu:       sliceCpu,
 				Bandwidth: slicebandwidth,
 			}
 			slice_info_dictionary = append(slice_info_dictionary, s)

@@ -5,17 +5,19 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 	temp := slice.Width
 	end := true
 	tree_index_list := []int{}
-	deploy_list := []SliceDeploy{}
-	draw_list := []DrawBlock{}
-	tree_all_new := []*node{}
-	tree_top_new := []*node{}
+	deploy_list     := []SliceDeploy{}
+	draw_list       := []DrawBlock{}
+	tree_all_new    := []*node{}
+	tree_top_new    := []*node{}
 	last_width := 0
 
 	for i := 0; i < len(tree_top); i++ {
 		if tree_top[i].right == nil && tree_top[i].top == nil {
 			if temp - tree_top[i].width > 0 && slice.Height <= tree_top[i].height {
-				temp -= tree_top[i].width
-				tree_index_list = append(tree_index_list, i)
+				if i != len(tree_top) - 1 && (tree_top[i].x + tree_top[i].width) == tree_top[i+1].x {
+					temp -= tree_top[i].width
+					tree_index_list = append(tree_index_list, i)					
+				}
 			} else {
 				last_width = temp
 				tree_index_list = append(tree_index_list, i)
@@ -35,7 +37,7 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 		index := 0
 		node := tree_top[tree_index_list[index]]
 		for i := 0; i < sub_slices_num; i++ {
-			var w,h int
+			var w, h int
 			if node.right == nil && node.top == nil {
 				if slice.SubBlock[i].Width - width_bias <= node.width {
 					w = slice.SubBlock[i].Width - width_bias

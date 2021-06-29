@@ -53,20 +53,20 @@ func (n *node) split(width, height int) *node {
 	return n
 }
 
-func updateTree(tree []*node, target string, position int) []*node {
-
+func updateTree(n *node, tree []*node, width, height int) {
 	for i := 0; i < len(tree); i++ {
-		if target == "top" {
-			tree[i].y = position
-		} else if target == "right" {
-			tree[i].x = position
+		if tree[i].right == nil && tree[i].top == nil {
+			if n.y > tree[i].y && n.right.x > tree[i].x {
+				tree[i].height = n.y - tree[i].y
+			}
+			if n.x > tree[i].x && n.top.y > tree[i].y {
+				tree[i].width = n.x - tree[i].x
+			}
 		}
 	}
-
-	return tree
 }
 
-func findTopRight(target *node, right []*node, top []*node) string {
+func findTopRight(target *node, top []*node, right []*node) string {
 	var result = "none"
 	for _, t := range top {
 		if t == target {

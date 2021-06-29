@@ -15,4 +15,6 @@
 # vendor/
 network-slice/0x*
 logs/
-slice-requests/DataSet-*
+slice-requests/
+slice-forecasting/
+# slice-requests/DataSet-*

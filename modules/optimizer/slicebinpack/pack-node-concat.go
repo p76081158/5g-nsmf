@@ -1,8 +1,5 @@
 package slicebinpack
 
-// import (
-// 	"fmt"
-// )
 // concat top node and distribute network slice reqeust to select top nodes
 func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*node, []SliceDeploy, []DrawBlock) {
 	temp := slice.Width
@@ -13,15 +10,17 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 	tree_all_new := []*node{}
 	tree_top_new := []*node{}
 	last_width := 0
+
 	for i := 0; i < len(tree_top); i++ {
 		if tree_top[i].right == nil && tree_top[i].top == nil {
-			if temp - tree_top[i].width > 0 && slice.Height < tree_top[i].height {
+			if temp - tree_top[i].width > 0 && slice.Height <= tree_top[i].height {
 				temp -= tree_top[i].width
 				tree_index_list = append(tree_index_list, i)
 			} else {
 				last_width = temp
 				tree_index_list = append(tree_index_list, i)
 				end = false
+				break
 			}
 		}
 	}
@@ -31,19 +30,15 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 	}
 
 	sub_slices_num := len(slice.SubBlock)
-
+	width_bias := 0
 	if sub_slices_num >= 1 {
 		index := 0
 		node := tree_top[tree_index_list[index]]
 		for i := 0; i < sub_slices_num; i++ {
 			var w,h int
-			// fmt.Println(index)
-			// fmt.Println(slice.SubBlock[i].Width)
-			// fmt.Println(node.width)
-
 			if node.right == nil && node.top == nil {
-				if slice.SubBlock[i].Width <= node.width {
-					w = slice.SubBlock[i].Width
+				if slice.SubBlock[i].Width - width_bias <= node.width {
+					w = slice.SubBlock[i].Width - width_bias
 					h = slice.SubBlock[i].Height
 
 					node = node.split(w, h)
@@ -71,12 +66,12 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 					} else {
 						node = node.right
 					}
+					width_bias = 0
 					deploy_list = append(deploy_list, info)
 					draw_list   = append(draw_list, drawinfo)
 				} else {
 					w = node.width
 					h = slice.SubBlock[i].Height
-
 					node = node.split(w, h)
 					updateTree(node, tree_top, w, h)
 					tree_all_new = append(tree_all_new, node.right)
@@ -97,6 +92,7 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 						DownRightX: node.x + w,
 						DownRightY: node.y,
 					}
+					width_bias = w
 					index++
 					i--
 					node = tree_top[tree_index_list[index]]
@@ -142,8 +138,6 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 			if i == len(tree_index_list) - 1 {
 				info.End = true
 			}
-				
-			// p.AcceptSlices = append(p.AcceptSlices, p.Bins.Slices[i])
 			deploy_list  = append(deploy_list, info)
 			draw_list    = append(draw_list, drawinfo)
 		}

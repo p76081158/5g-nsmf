@@ -1,9 +1,5 @@
 package slicebinpack
 
-// import (
-// 	"fmt"
-// )
-
 type Block struct {
 	Name     string
 	Width    int
@@ -85,7 +81,6 @@ func (p *Packer) Pack(algorithm string, concat bool) {
 
 		// select algorithm for finding candidate of network slice placement
 		node := root.find(w, h, algorithm, tree_list)
-		// fmt.Println(findTopRight(node, tree_list_right, tree_list_top))
 		if node != nil {
 			// is slice group or not
 			if sub_slices_num > 1 {
@@ -94,16 +89,7 @@ func (p *Packer) Pack(algorithm string, concat bool) {
                     h = p.Bins.Slices[i].SubBlock[j].Height
 					node = node.split(w, h)
 					updateTree(node, tree_list, w, h)
-					// updateTree(node, tree_list, w, h)
-
-
-					// result, result_list := updateTree(node, tree_list_top, tree_list_right)
-					// switch result {
-					// case "top":
-					// 	tree_list_top   = result_list
-					// case "right":
-					// 	tree_list_right = result_list
-					
+		
 					tree_list       = append(tree_list, node.right)
 					tree_list       = append(tree_list, node.top)
 					tree_list_top   = append(tree_list_top, node.top)
@@ -135,13 +121,6 @@ func (p *Packer) Pack(algorithm string, concat bool) {
 			} else {
 				node = node.split(w, h)
 				updateTree(node, tree_list, w, h)
-				// result, result_list := updateTree(node, tree_list_top, tree_list_right)
-				// switch result {
-				// case "top":
-				// 	tree_list_top   = result_list
-				// case "right":
-				// 	tree_list_right = result_list
-				// }
 				tree_list = append(tree_list, node.right)
 				tree_list = append(tree_list, node.top)
 				tree_list_top   = append(tree_list_top, node.top)

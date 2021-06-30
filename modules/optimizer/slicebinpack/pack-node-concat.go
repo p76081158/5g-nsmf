@@ -1,5 +1,9 @@
 package slicebinpack
 
+import (
+	"fmt"
+)
+
 // concat top node and distribute network slice reqeust to select top nodes
 func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*node, []SliceDeploy, []DrawBlock) {
 	temp := slice.Width
@@ -12,13 +16,14 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 	last_width := 0
 
 	for i := 0; i < len(tree_top); i++ {
+		fmt.Println(tree_top[i])
 		if tree_top[i].right == nil && tree_top[i].top == nil {
 			if temp - tree_top[i].width > 0 && slice.Height <= tree_top[i].height {
 				if i != len(tree_top) - 1 && (tree_top[i].x + tree_top[i].width) == tree_top[i+1].x {
 					temp -= tree_top[i].width
 					tree_index_list = append(tree_index_list, i)					
 				}
-			} else {
+			} else if slice.Height <= tree_top[i].height {
 				last_width = temp
 				tree_index_list = append(tree_index_list, i)
 				end = false
@@ -27,6 +32,7 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 		}
 	}
 
+	fmt.Println(tree_index_list)
 	if end {
 		return nil, nil, nil, nil
 	}

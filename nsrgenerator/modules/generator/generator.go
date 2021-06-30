@@ -21,9 +21,12 @@ type ForecastingBlock = nsrhandler.ForecastingBlock
 var Cpu_base = 100
 var Cpu_min = 2
 var Bandwidth_min = 1
+var Slice_Duration_base = 100
+var Slice_Duration_min = 1
+
 
 // generate network slice info of each tenant and slice request
-func SliceRequestGenerator(dir string, gnb_tenant_dictionary []string, num_slice int, cpu_max int, cpu_lambda int, bandwidthLimit int, bandwidth_lambda int, slice_duration int, extra_request_num_each_timewindow int) {
+func SliceRequestGenerator(dir string, gnb_tenant_dictionary []string, num_slice int, cpu_max int, cpu_lambda int, bandwidthLimit int, bandwidth_lambda int, slice_duration int, slice_duration_random bool, timewindow_duration int, extra_request_num_each_timewindow int) {
 	var slice_info_dictionary []SliceList
 	num_tenant := len(gnb_tenant_dictionary)
 	for i := 0; i < num_tenant; i++ {
@@ -35,6 +38,7 @@ func SliceRequestGenerator(dir string, gnb_tenant_dictionary []string, num_slice
 			hex_slice_index := fmt.Sprintf("%04x", j + 515)
 			sliceCpu := int(cpu_poisson.Rand()) * Cpu_base
 			slicebandwidth := int(bandwidth_poisson.Rand())
+			sliceDuration := slice_duration
 			if sliceCpu < (Cpu_min * Cpu_base) {
 				sliceCpu = Cpu_min * Cpu_base
 			} else if sliceCpu > (cpu_max * Cpu_base) {
@@ -45,6 +49,18 @@ func SliceRequestGenerator(dir string, gnb_tenant_dictionary []string, num_slice
 			} else if slicebandwidth > bandwidthLimit {
 				slicebandwidth = bandwidthLimit
 			}
+			if slice_duration_random {
+				duration_lambda := slice_duration / Slice_Duration_base
+				duration_poisson := distuv.Poisson{float64(duration_lambda), r}
+				duration := int(duration_poisson.Rand())
+				if duration < Bandwidth_min {
+					duration = Bandwidth_min
+				} else if duration > timewindow_duration / Slice_Duration_base {
+					duration = timewindow_duration / Slice_Duration_base
+				}
+				sliceDuration = duration * Slice_Duration_base
+			}
+
 			s := SliceList {
 				// snssai = sst(2bit) + sd(6bit)
 				// sst = 01
@@ -54,7 +70,7 @@ func SliceRequestGenerator(dir string, gnb_tenant_dictionary []string, num_slice
 				// hex 0203 = dec 515
 				Snssai:    "0x01" + hex_tenant_index + hex_slice_index,
 				Ngci:      gnb_tenant_dictionary[i],
-				Duration:  slice_duration,
+				Duration:  sliceDuration,
 				Cpu:       sliceCpu,
 				Bandwidth: slicebandwidth,
 			}

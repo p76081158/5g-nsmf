@@ -26,6 +26,7 @@ var Bandwidth_lambda = 5
 var Bandwidth_discount = 0.5
 var Slice_min_accept_num = 2
 var Slice_duration = TimeWindowSize / Slice_min_accept_num
+var Slice_duration_random = false
 var gnb_tenant_dictionary = []string {"466-01-000000010", "466-11-000000010", "466-93-000000010"}
 
 func handleError(err error) {
@@ -91,7 +92,7 @@ func main() {
 	}
 
 	nsrtoyaml.Mkdir(Dir)
-	generator.SliceRequestGenerator(Dir, gnb_tenant_dictionary, SliceNum, Cpu_max, Cpu_lambda, BandwidthLimit, Bandwidth_lambda, Slice_duration, ExtraSliceNum)
+	generator.SliceRequestGenerator(Dir, gnb_tenant_dictionary, SliceNum, Cpu_max, Cpu_lambda, BandwidthLimit, Bandwidth_lambda, Slice_duration, Slice_duration_random, TimeWindowSize, ExtraSliceNum)
 	generator.ForecaseGenerator(Dir, ForecastBlockSize, Cpu_max, Cpu_discount, BandwidthLimit, Bandwidth_discount)
 }
 

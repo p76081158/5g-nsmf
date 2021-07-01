@@ -8,7 +8,6 @@ import (
 // concat top node and distribute network slice reqeust to select top nodes
 func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*node, []SliceDeploy, []DrawBlock) {
 	end := true
-	tree_index_list    := []int{}
 	deploy_list        := []SliceDeploy{}
 	draw_list          := []DrawBlock{}
 	tree_all_new       := []*node{}
@@ -16,8 +15,8 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 	tree_top_new       := []*node{}
 	last_width := 0
 
-	fmt.Println(len(tree_all))
-	fmt.Println(len(tree_top))
+	// fmt.Println(len(tree_all))
+	// fmt.Println(len(tree_top))
 	fmt.Println(slice)
 	for i := 0; i < len(tree_all); i++ {
 		fmt.Println(tree_all[i])
@@ -82,8 +81,6 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 	// 	}
 	// }
 
-	fmt.Println("")
-	fmt.Println(tree_index_list)
 	if end {
 		return nil, nil, nil, nil
 	}

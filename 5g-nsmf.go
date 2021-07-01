@@ -1,17 +1,17 @@
 package main
 
 import (
-	// "fmt"
-	// "time"
-	// "strconv"
+	"fmt"
+	"time"
+	"strconv"
 
-	// "github.com/p76081158/5g-nsmf/modules/nsrhandler"
+	"github.com/p76081158/5g-nsmf/modules/nsrhandler"
 	"github.com/p76081158/5g-nsmf/modules/optimizer/slicebinpack"
 	// "github.com/p76081158/5g-nsmf/modules/optimizer/scheduler"
 	// "github.com/p76081158/5g-nsmf/modules/ueransim/gnb"
 	"github.com/p76081158/5g-nsmf/modules/ueransim/ue/generator"
 	// "github.com/p76081158/5g-nsmf/api/f5gnssmf"
-	"github.com/p76081158/free5gc-nssmf"
+	// "github.com/p76081158/free5gc-nssmf"
 )
 
 // struct alias
@@ -24,7 +24,8 @@ type DrawBlock = slicebinpack.DrawBlock
 type UeGenerator = generator.UeGenerator
 
 // struct var
-var request []Slice
+var requestCpu []Slice
+var requestBandwidth []Slice
 var ueGenerator []UeGenerator
 var bin Bin
 var access []Slice
@@ -48,13 +49,18 @@ var RequestPattern = "300"
 
 // change test case of network slice request and choose algorithm of network slice bin packing
 // var slcieRequestCase = "demo"
-var slcieRequestCase = "test-10"
-// var algorithm = "right-top"
-// var algorithm = "top-right"
-var algorithm = "leaf-size"
-//var timeWindowNumber = nsrhandler.GetTestCaseTimewindowNumber(slcieRequestCase)
-var forecastingTime = 0
+var slcieRequestCase = "demo-1"
+// var slcieRequestCase = "DataSet-4/test1"
+var algorithm = "invert-pre-order"
+// var algorithm = "pre-order"
+// var algorithm = "leaf-size"
+var timeWindowNumber = nsrhandler.GetTestCaseTimewindowNumber( "slice-requests/" + slcieRequestCase)
+var forecastingTime = 1
 var forecastingFinish = false
+// var sort = true
+var sort = false
+var concat = true
+// var concat = false
 
 func main() {
 	// gnb.GetgNBinfo()
@@ -78,49 +84,50 @@ func main() {
 	// fmt.Println("Warm up time ...")
 	// time.Sleep(30 * time.Second)
 
-	// accept_count := 0
-	// reject_count := 0
-	// slicebinpack.Mkdir(slcieRequestCase)
+	accept_count := 0
+	reject_count := 0
+	slicebinpack.Mkdir("logs/binpack/" + slcieRequestCase)
 
-	// for i := 0; i < timeWindowNumber; i++ {
-	// 	count := i + 1
+	for i := 0; i < timeWindowNumber; i++ {
+		count := i + 1
 
-	// 	if count == forecastingTime {
-	// 		forecastingFinish = true
-	// 	}
+		if count == forecastingTime {
+			forecastingFinish = true
+		}
 
-	// 	dt := time.Now()
-	// 	fmt.Println("")
-	// 	fmt.Println(dt.String())
-	// 	fmt.Println("")
-	// 	fmt.Println("Read Network Slice Requests ", count)
-	// 	fmt.Println("")
+		dt := time.Now()
+		fmt.Println("")
+		fmt.Println(dt.String())
+		fmt.Println("")
+		fmt.Println("Read Network Slice Requests ", count)
+		fmt.Println("")
 
-	// 	// get network slice request by test case, and generate ue request pattern by network slice request
-	// 	request, ueGenerator = nsrhandler.RefreshRequestList(slcieRequestCase, count, forecastingFinish)
-	// 	fmt.Println(request)
-	// 	fmt.Println(ueGenerator)
-	// 	fmt.Println("")
-	// 	fmt.Println("Result of Network Slice Bin Packing")
-	// 	fmt.Println("")
+		// get network slice request by test case, and generate ue request pattern by network slice request
+		requestCpu, requestBandwidth, ueGenerator = nsrhandler.RefreshRequestList("slice-requests/" + slcieRequestCase, "slice-forecasting/" + slcieRequestCase, count, forecastingFinish, sort)
+		fmt.Println(requestCpu)
+		fmt.Println(requestBandwidth)
+		fmt.Println(ueGenerator)
+		fmt.Println("")
+		fmt.Println("Result of Network Slice Bin Packing")
+		fmt.Println("")
 
-	// 	bin = Bin{"Resource", TimeWindowSize, ResourceLimit, request}
-	// 	p = Packer{bin, access, reject, deploy_info, draw_info}
-	// 	p.Pack(algorithm)
+		bin = Bin{"Resource", TimeWindowSize, ResourceLimit, requestCpu}
+		p = Packer{bin, access, reject, deploy_info, draw_info}
+		p.Pack(algorithm, concat)
 
-	// 	fmt.Println("Accept Slices: ", p.AcceptSlices)
-	// 	fmt.Println("Reject Slices: ", p.RejectSlices)
-	// 	fmt.Println("Deploy Info:   ", p.DeployInfos)
-	// 	fmt.Println("Draw Info:     ", p.DrawInfos)
-	// 	fmt.Println("")
+		fmt.Println("Accept Slices: ", p.AcceptSlices)
+		fmt.Println("Reject Slices: ", p.RejectSlices)
+		fmt.Println("Deploy Info:   ", p.DeployInfos)
+		fmt.Println("Draw Info:     ", p.DrawInfos)
+		fmt.Println("")
 
-	// 	accept_count += len(p.AcceptSlices)
-	// 	reject_count += len(p.RejectSlices)
-	// 	// scheduler.SlicesScheduler(p.DeployInfos, gnb_ip_dictionary, gnb_ip_B_dictionary, DeployTimeBias, CPUofUserPlane, ueGenerator, RequestPattern)
-	// 	slicebinpack.DrawBinPackResult(slcieRequestCase, strconv.Itoa(count), p.DrawInfos, TimeWindowSize, ResourceLimit, DrawScaleRatio)
+		accept_count += len(p.AcceptSlices)
+		reject_count += len(p.RejectSlices)
+		// scheduler.SlicesScheduler(p.DeployInfos, gnb_ip_dictionary, gnb_ip_B_dictionary, DeployTimeBias, CPUofUserPlane, ueGenerator, RequestPattern)
+		slicebinpack.DrawBinPackResult("logs/binpack/" + slcieRequestCase, strconv.Itoa(count), p.DrawInfos, TimeWindowSize, ResourceLimit, DrawScaleRatio)
 
-	// 	// time.Sleep(time.Duration(TimeWindowSize + TimeWindowDelay) * time.Second)
-	// }
+		// time.Sleep(time.Duration(TimeWindowSize + TimeWindowDelay) * time.Second)
+	}
 	
 	// for i := 0; i < len(warnup); i++ {
 	// 	slice_name  := warnup[i].Name
@@ -128,22 +135,22 @@ func main() {
 	// 	f5gnssmf.DeleteSliceFromCoreNetwork(slice_name)
 	// }
 
-	// fmt.Println("Accept count: ", accept_count)
-	// fmt.Println("Reject count: ", reject_count)
-	// fmt.Println("Accept rate : ", float64(accept_count) / 4000.0)
+	fmt.Println("Accept count: ", accept_count)
+	fmt.Println("Reject count: ", reject_count)
+	fmt.Println("Accept rate : ", float64(accept_count) / 4000.0)
 
 	// gnb.RestartgNB("466-01-000000010")
 	// gnb.RestartgNB("466-11-000000010")
 	// gnb.RestartgNB("466-93-000000010")
-	//nssmf.ApplyNetworkSlice("0x01010203", "192.168.72.51", "200", "466-01-000000010", 600, 200)
+	// nssmf.ApplyNetworkSlice("0x01010203", "192.168.72.51", "200", "466-01-000000010", 600, 200)
 	// nssmf.DeployNetworkSlice("0x01010203", "192.168.72.51", "200", "466-01-000000010", 600, 200)
 	// nssmf.ApplyNetworkSlice("0x01010203", "466-01-000000010")
-	nssmf.DeleteNetworkSlice("0x01010203")
+	// nssmf.DeleteNetworkSlice("0x01010203")
 	//f5gnssmf.ApplySliceToCoreNetwork("0x01010203", "192.168.72.51", "200", "466-01-000000010", 600, 200, 0, 60, true, 1.04)
 }
 
 // test example:
-
+// ./nsrgenerator DataSet-test/test1 3 10 1000 5 0.5 10 5 0.5 600
 // apply specific network slice
 // f5gnssmf.ApplySliceToCoreNetwork("0x01010203", "192.168.72.51", "201", "466-01-000000010", 600, 200, 0, 60, true, 1.04)
 // f5gnssmf.DeleteSliceFromCoreNetwork("0x01010203")

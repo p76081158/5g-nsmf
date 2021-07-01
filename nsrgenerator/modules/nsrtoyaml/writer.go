@@ -4,19 +4,17 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	// "os"
 	"os/exec"
-	// "strings"
 
 	"github.com/p76081158/5g-nsmf/modules/nsrhandler"
 	"gopkg.in/yaml.v2"
 )
 
-type Yaml2GoRequestList = nsrhandler.Yaml2GoRequestList
+type Yaml2GoRequestList      = nsrhandler.Yaml2GoRequestList
 type Yaml2GoForecastingBlock = nsrhandler.Yaml2GoForecastingBlock
-type RequestList = nsrhandler.RequestList
-type SliceList = nsrhandler.SliceList
-type ForecastingBlock = nsrhandler.ForecastingBlock
+type RequestList             = nsrhandler.RequestList
+type SliceList               = nsrhandler.SliceList
+type ForecastingBlock        = nsrhandler.ForecastingBlock
 
 // create dir for new set of network slice requests
 func Mkdir(dir string) {

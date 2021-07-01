@@ -1,14 +1,9 @@
 package nsrtoyaml
 
 import (
-	// "fmt"
 	"io/ioutil"
 	"log"
-	// // "os"
-	// "os/exec"
-	// "strings"
 
-	// "github.com/p76081158/5g-nsmf/modules/nsrhandler"
 	"gopkg.in/yaml.v2"
 )
 

@@ -13,9 +13,9 @@ import (
 	"golang.org/x/exp/rand"
 )
 
-type Slice = slicebinpack.Slice
-type Block = slicebinpack.Block
-type SliceList = nsrhandler.SliceList
+type Slice            = slicebinpack.Slice
+type Block            = slicebinpack.Block
+type SliceList        = nsrhandler.SliceList
 type ForecastingBlock = nsrhandler.ForecastingBlock
 
 var Cpu_base = 100

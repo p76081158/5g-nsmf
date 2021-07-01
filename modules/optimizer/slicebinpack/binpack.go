@@ -53,14 +53,26 @@ func (n *node) split(width, height int) *node {
 	return n
 }
 
+// ByTreeX implements sort.Interface based on the node.x field.
+type ByNodeX []*node
+
+func (a ByNodeX) Len() int           { return len(a) }
+func (a ByNodeX) Less(i, j int) bool { return a[i].x < a[j].x }    // ascending sort
+func (a ByNodeX) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+
 func updateTree(n *node, tree []*node, width, height int) {
 	for i := 0; i < len(tree); i++ {
 		if tree[i].right == nil && tree[i].top == nil {
-			if n.y > tree[i].y && n.right.x > tree[i].x {
+			if n.x < tree[i].x + tree[i].width && n.y > tree[i].y && n.right.x > tree[i].x && tree[i].height > n.y - tree[i].y {
 				tree[i].height = n.y - tree[i].y
 			}
-			if n.x > tree[i].x && n.top.y > tree[i].y {
+			if n.y < tree[i].y + tree[i].height && n.x > tree[i].x && n.top.y > tree[i].y && tree[i].width > n.x - tree[i].x {
 				tree[i].width = n.x - tree[i].x
+			}
+			// update node mapping
+			if n.x == tree[i].x && n.y == tree[i].y {
+				tree[i].top   = n.top
+				tree[i].right = n.right
 			}
 		}
 	}

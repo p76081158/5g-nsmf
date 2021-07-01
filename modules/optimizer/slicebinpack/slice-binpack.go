@@ -67,7 +67,7 @@ func (p *Packer) Pack(algorithm string, concat bool) {
 		// w, h = 0, 0
 		h = 0
 		w = p.Bins.Slices[i].Width
-		if sub_slices_num >= 1 {
+		if sub_slices_num > 0 {
 			for j := 0; j < sub_slices_num; j++ {
 				if p.Bins.Slices[i].SubBlock[j].Height > h {
 					h = p.Bins.Slices[i].SubBlock[j].Height
@@ -83,15 +83,15 @@ func (p *Packer) Pack(algorithm string, concat bool) {
 		node := root.find(w, h, algorithm, tree_list)
 		if node != nil {
 			// is slice group or not
-			if sub_slices_num > 1 {
-				for j :=0; j < sub_slices_num; j++ {
+			if sub_slices_num > 0 {
+				for j := 0; j < sub_slices_num; j++ {
 					w = p.Bins.Slices[i].SubBlock[j].Width
                     h = p.Bins.Slices[i].SubBlock[j].Height
 					node = node.split(w, h)
 					updateTree(node, tree_list, w, h)
-		
-					tree_list       = append(tree_list, node.right)
+
 					tree_list       = append(tree_list, node.top)
+					tree_list       = append(tree_list, node.right)
 					tree_list_top   = append(tree_list_top, node.top)
 					tree_list_right = append(tree_list_right, node.right)
 					end := false
@@ -121,8 +121,8 @@ func (p *Packer) Pack(algorithm string, concat bool) {
 			} else {
 				node = node.split(w, h)
 				updateTree(node, tree_list, w, h)
-				tree_list = append(tree_list, node.right)
-				tree_list = append(tree_list, node.top)
+				tree_list        = append(tree_list, node.top)
+				tree_list       = append(tree_list, node.right)
 				tree_list_top   = append(tree_list_top, node.top)
 				tree_list_right = append(tree_list_right, node.right)
 				info := SliceDeploy {

@@ -3,20 +3,20 @@ requestList:
   - snssai: "0x01010207"
     ngci: 466-01-000000010
     duration: 300
-    cpu: 300
+    cpu: 600
     bandwidth: 6
   - snssai: "0x01020209"
     ngci: 466-11-000000010
     duration: 300
-    cpu: 600
+    cpu: 1000
     bandwidth: 3
   - snssai: "0x01030208"
     ngci: 466-93-000000010
     duration: 300
-    cpu: 200
-    bandwidth: 6
+    cpu: 400
+    bandwidth: 5
   - snssai: "0x0101020b"
     ngci: 466-01-000000010
     duration: 300
-    cpu: 200
-    bandwidth: 5
+    cpu: 800
+    bandwidth: 6

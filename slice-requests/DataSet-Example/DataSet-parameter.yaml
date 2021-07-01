@@ -18,8 +18,10 @@ datasetInfo:
       discount: 0.5        # forecasting discount
     duration: 300          # duration of slice reqeust
     random: false          # slice request duration is fixed or random (poison lambda = duration)
-  sort: true               # sorting network slice requests in each timewindow before bin packing
-  concat: false            # use concat algorithm if not finding any tree node for slice reqeust
+  target: cpu              # target of resource for slice bin packing algorithm
+  sort: false              # sorting network slice requests in each timewindow before bin packing
+  concat: true             # use concat algorithm if not finding any tree node for slice reqeust
   timewindow: 600          # duration of each timewindow
-  forecastBlockSize: 150   # forecasted block size of network slice request, e.g. each network slice reqeust's duration is 300, so each slice requests will be divided into two sub slice requests (300/150=2)
-  regenerate: true         # regenerate DataSet again (false for DataSet already exist)
+  forecastingTime: 0       # from which timewindow start use forecasted data (0 == nerver, 1 == from timewindow-1)
+  forecastBlockSize: 100   # forecasted block size of network slice request, e.g. each network slice reqeust's duration is 300, so each slice requests will be divided into two sub slice requests (300/150=2)
+  regenerate: false        # regenerate DataSet again (false for DataSet already exist)

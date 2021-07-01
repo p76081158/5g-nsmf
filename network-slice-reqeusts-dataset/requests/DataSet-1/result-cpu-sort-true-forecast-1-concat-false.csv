@@ -1,0 +1,21 @@
+Algorithm,pre-order
+name,accept rate,accept-1,accept-2,accept-3,accept-4
+test-1,0.876750,0,84,325,591
+test-2,0.865000,0,68,404,528
+test-3,0.865250,0,94,351,555
+test-4,0.915500,0,33,272,695
+test-5,0.847500,0,72,466,462
+Algorithm,invert-pre-order
+name,accept rate,accept-1,accept-2,accept-3,accept-4
+test-1,0.867250,0,82,367,551
+test-2,0.840500,0,64,510,426
+test-3,0.855000,0,72,436,492
+test-4,0.918000,0,12,304,684
+test-5,0.842750,0,35,559,406
+Algorithm,leaf-size
+name,accept rate,accept-1,accept-2,accept-3,accept-4
+test-1,0.859500,0,115,332,553
+test-2,0.863250,0,66,415,519
+test-3,0.852750,0,98,393,509
+test-4,0.918750,0,33,259,708
+test-5,0.850750,0,71,455,474

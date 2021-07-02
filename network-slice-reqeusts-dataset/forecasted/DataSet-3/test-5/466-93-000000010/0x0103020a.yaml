@@ -1,0 +1,13 @@
+forecastingBlock:
+- block: 1
+  duration: 100
+  cpu: 200
+  bandwidth: 6
+- block: 2
+  duration: 100
+  cpu: 200
+  bandwidth: 6
+- block: 3
+  duration: 100
+  cpu: 200
+  bandwidth: 8

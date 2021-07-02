@@ -1,9 +1,10 @@
 package excelwriter
 
 import (
-	"os"
-	"log"
 	"encoding/csv"
+	"log"
+	"os"
+	"strconv"
 )
 
 func checkError(message string, err error) {
@@ -12,8 +13,8 @@ func checkError(message string, err error) {
 	}
 }
 
-func WriteToExcel(dir string, forecast_time string, csv_data [][]string) {
-	path := "../slice-requests/" + dir + "/result-" + forecast_time + ".csv"
+func WriteToExcel(dir string, resource string, sort bool, forecast_time string, concat bool, csv_data [][]string) {
+	path := "../slice-requests/" + dir + "/result-" + resource + "-sort-" + strconv.FormatBool(sort) + "-forecast-"+ forecast_time + "-concat-" + strconv.FormatBool(concat) + ".csv"
 	file, err := os.Create(path)
 	checkError("Cannot create file", err)
 	defer file.Close()

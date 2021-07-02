@@ -2,6 +2,7 @@ package algorithmtester
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 
 	"github.com/p76081158/5g-nsmf/modules/nsrhandler"
@@ -10,18 +11,18 @@ import (
 )
 
 // struct alias
-type Packer = slicebinpack.Packer
-type Bin = slicebinpack.Bin
-type Slice = slicebinpack.Slice
-type Block = slicebinpack.Block
+type Packer      = slicebinpack.Packer
+type Bin         = slicebinpack.Bin
+type Slice       = slicebinpack.Slice
+type Block       = slicebinpack.Block
 type SliceDeploy = slicebinpack.SliceDeploy
-type DrawBlock = slicebinpack.DrawBlock
+type DrawBlock   = slicebinpack.DrawBlock
 
-var caseCount []int
-var access []Slice
-var reject []Slice
-var deploy_info []SliceDeploy
-var draw_info []DrawBlock
+var caseCount        []int
+var access           []Slice
+var reject           []Slice
+var deploy_info      []SliceDeploy
+var draw_info        []DrawBlock
 var DrawScaleRatio = 10
 
 // create golang slice for store accept case
@@ -50,9 +51,9 @@ func CountAcceptCase(accept_list []Slice) {
 }
 
 // create csv title
-func InitCsvRowTitle(algorithm_name string, caseNum int) [][]string {
+func InitCsvRowTitle(algorithm_name string, caseNum int, forecastingTime int, sort bool, concat bool) [][]string {
 	var result_csv [][]string
-	row_title := []string{"Algorithm", algorithm_name}
+	row_title := []string{"Algorithm", algorithm_name, "Test-parameter : ", "Sort-" + strconv.FormatBool(sort), "ForecastingTime-" + strconv.Itoa(forecastingTime), "Concat-" + strconv.FormatBool(concat)}
 	test_case_title := []string{"name", "accept rate"}
 	for i := 0; i < caseNum; i++ {
 		accept_case_name := "accept-" + strconv.Itoa(i + 1)
@@ -64,14 +65,14 @@ func InitCsvRowTitle(algorithm_name string, caseNum int) [][]string {
 }
 
 // test algorithm on each test cases in the dataset
-func TestAlgorithm(dataset string, test_num int, algorithm string, resource string, resource_limit int, timewindowSize int, request_in_timewindow int, forecastingTime int, sort bool) [][]string {
-	result_csv := InitCsvRowTitle(algorithm, request_in_timewindow)
+func TestAlgorithm(dataset string, test_num int, algorithm string, resource string, resource_limit int, timewindowSize int, request_in_timewindow int, forecastingTime int, sort bool, concat bool) [][]string {
+	result_csv := InitCsvRowTitle(algorithm, request_in_timewindow, forecastingTime, sort, concat)
 	for i := 0; i < test_num; i++ {
 		var test_case_csv []string
 		forecastingFinish := false
 		test_name := "test-" + strconv.Itoa(i + 1)
 		path := "../slice-requests/" + dataset + "/" + test_name
-		path_forecasting := "../slice-forecasting/" + dataset + test_name
+		path_forecasting := "../slice-forecasting/" + dataset + "/" + test_name
 		drawpath := "../logs/binpack/" + dataset + "/" + test_name + "/" + resource + "/" + algorithm
 		slicebinpack.Mkdir(drawpath)
 		timeWindowNumber := nsrhandler.GetTestCaseTimewindowNumber(path)
@@ -86,6 +87,11 @@ func TestAlgorithm(dataset string, test_num int, algorithm string, resource stri
 			if count == forecastingTime {
 				forecastingFinish = true
 			}
+			fmt.Println("")
+			fmt.Println("Test - ", i + 1)
+			fmt.Println("Algorithm - ", algorithm)
+			fmt.Println("Read Network Slice Requests ", count)
+			fmt.Println("")
 			// get network slice request by test case, and generate ue request pattern by network slice request
 			requestCpu, requestBandwidth, _ := nsrhandler.RefreshRequestList(path, path_forecasting, count, forecastingFinish, sort)
 			
@@ -94,9 +100,12 @@ func TestAlgorithm(dataset string, test_num int, algorithm string, resource stri
 				bin = Bin{"Resource", timewindowSize, resource_limit, requestCpu}
 			} else if resource == "bandwidth" {
 				bin = Bin{"Resource", timewindowSize, resource_limit, requestBandwidth}
+			} else {
+				fmt.Println("Undefined Resource Type!")
+				os.Exit(0)
 			}
 			p := Packer{bin, access, reject, deploy_info, draw_info}
-			p.Pack(algorithm)
+			p.Pack(algorithm, concat)
 	
 			fmt.Println("Accept Slices: ", p.AcceptSlices)
 			fmt.Println("Reject Slices: ", p.RejectSlices)
@@ -124,11 +133,11 @@ func TestAlgorithm(dataset string, test_num int, algorithm string, resource stri
 }
 
 // test all algorithm in algorithm_list
-func TestAllAlgorithm(dataset string, test_num int, algorithm_list []string, resource string, resource_limit int, timewindowSize int, request_in_timewindow int, forecastingTime int, sort bool) {
+func TestAllAlgorithm(dataset string, test_num int, algorithm_list []string, resource string, resource_limit int, timewindowSize int, request_in_timewindow int, forecastingTime int, sort bool, concat bool) {
 	var csv_data [][]string
 	for i := 0; i < len(algorithm_list); i++ {
-		result := TestAlgorithm(dataset, test_num, algorithm_list[i], resource, resource_limit, timewindowSize, request_in_timewindow, forecastingTime, sort)
+		result := TestAlgorithm(dataset, test_num, algorithm_list[i], resource, resource_limit, timewindowSize, request_in_timewindow, forecastingTime, sort, concat)
 		csv_data = append(csv_data, result...)
 	}
-	excelwriter.WriteToExcel(dataset, strconv.Itoa(forecastingTime), csv_data)
+	excelwriter.WriteToExcel(dataset, resource, sort, strconv.Itoa(forecastingTime), concat, csv_data)
 }

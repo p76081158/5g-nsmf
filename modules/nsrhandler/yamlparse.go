@@ -12,16 +12,16 @@ import (
     "gopkg.in/yaml.v2"
 )
 
-type Slice = slicebinpack.Slice
-type Block = slicebinpack.Block
+type Slice           = slicebinpack.Slice
+type Block           = slicebinpack.Block
 type ResourcePattern = generator.ResourcePattern
-type UeGenerator = generator.UeGenerator
+type UeGenerator     = generator.UeGenerator
 
 // Get all network slice info
 func GetSliceInfo(dir string) []SliceList {
-    var timewindow Yaml2GoRequestList
+    var timewindow        Yaml2GoRequestList
     var requestSlicesList []SliceList
-    path := "slice-requests/" + dir + "/slice-info-dictionary.yaml"
+    path          := "slice-requests/" + dir + "/slice-info-dictionary.yaml"
     yamlFile, err := ioutil.ReadFile(path)
     if err != nil {
         log.Printf("yamlFile.Get err   #%v ", err)
@@ -36,13 +36,13 @@ func GetSliceInfo(dir string) []SliceList {
 
 // get network slice requests base on test case dir and time_window_id, alse generate ue request pattern
 func RefreshRequestList(dir string, dir_forecasting string, windowID int, forecastingFinish bool, sorting bool) ([]Slice, []Slice, []UeGenerator) {
-    var timewindow Yaml2GoRequestList
-    var slicelist_cpu []SliceList
-    var slicelist_bandwidth []SliceList
-    var requestSlicesCpu []Slice
+    var timewindow             Yaml2GoRequestList
+    var slicelist_cpu          []SliceList
+    var slicelist_bandwidth    []SliceList
+    var requestSlicesCpu       []Slice
     var requestSlicesBandwidth []Slice
-    var requestUeGenerator []UeGenerator
-    path := dir + "/timewindow-" + strconv.Itoa(windowID) + ".yaml"
+    var requestUeGenerator     []UeGenerator
+    path          := dir + "/timewindow-" + strconv.Itoa(windowID) + ".yaml"
     yamlFile, err := ioutil.ReadFile(path)
     if err != nil {
         log.Printf("yamlFile.Get err   #%v ", err)
@@ -128,14 +128,14 @@ func RefreshRequestList(dir string, dir_forecasting string, windowID int, foreca
 
 // get forecasted network slice and ue request pattern
 func GetForecastingBlock(dir string, sliceID string) ([]Block, []Block, []ResourcePattern) {
-    var forecasting Yaml2GoForecastingBlock
-    var requestBlockCpu []Block
+    var forecasting           Yaml2GoForecastingBlock
+    var requestBlockCpu       []Block
     var requestBlockBandwidth []Block
-    var resourcePattern []ResourcePattern
-    split := strings.Split(sliceID, ",")
-    ngci  := split[0]
-    slice := split[1]
-    path := dir + "/" + ngci + "/" + slice + ".yaml"
+    var resourcePattern       []ResourcePattern
+    split         := strings.Split(sliceID, ",")
+    ngci          := split[0]
+    slice         := split[1]
+    path          := dir + "/" + ngci + "/" + slice + ".yaml"
     yamlFile, err := ioutil.ReadFile(path)
     if err != nil {
         log.Printf("yamlFile.Get err   #%v ", err)

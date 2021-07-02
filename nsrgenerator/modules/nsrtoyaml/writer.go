@@ -18,9 +18,9 @@ type ForecastingBlock        = nsrhandler.ForecastingBlock
 
 // create dir for new set of network slice requests
 func Mkdir(dir string) {
-	sh_cmd := "mkdir -p ../slice-requests/" + dir
+	sh_cmd    := "mkdir -p ../slice-requests/" + dir
 	input_cmd := sh_cmd
-	err := exec.Command("/bin/sh", "-c", input_cmd).Run()
+	err       := exec.Command("/bin/sh", "-c", input_cmd).Run()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -28,9 +28,9 @@ func Mkdir(dir string) {
 }
 
 func MkdirForecast(dir string) {
-	sh_cmd := "mkdir -p ../slice-forecasting/" + dir
+	sh_cmd    := "mkdir -p ../slice-forecasting/" + dir
 	input_cmd := sh_cmd
-	err := exec.Command("/bin/sh", "-c", input_cmd).Run()
+	err       := exec.Command("/bin/sh", "-c", input_cmd).Run()
 	if err != nil {
 		log.Fatal(err)
 	}

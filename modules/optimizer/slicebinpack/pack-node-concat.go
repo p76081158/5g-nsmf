@@ -7,13 +7,13 @@ import (
 
 // concat top node and distribute network slice reqeust to select top nodes
 func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*node, []SliceDeploy, []DrawBlock) {
-	end := true
+	end                := true
 	deploy_list        := []SliceDeploy{}
 	draw_list          := []DrawBlock{}
 	tree_all_new       := []*node{}
 	tree_top_candidate := []*node{}
 	tree_top_new       := []*node{}
-	last_width := 0
+	last_width         := 0
 
 	// fmt.Println(len(tree_all))
 	// fmt.Println(len(tree_top))
@@ -31,25 +31,25 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 	}
 
 	for i := 0; i < len(tree_top_candidate); i++ {
-		finish := false
+		finish        := false
 		tree_top_temp := []*node{}
-		tree_top_temp = append(tree_top_temp, tree_top_candidate[i])
-		temp := slice.Width - tree_top_candidate[i].width
-		current_x := tree_top_candidate[i].x + tree_top_candidate[i].width
+		tree_top_temp  = append(tree_top_temp, tree_top_candidate[i])
+		temp          := slice.Width - tree_top_candidate[i].width
+		current_x     := tree_top_candidate[i].x + tree_top_candidate[i].width
 		for j := i + 1; j < len(tree_top_candidate); j++ {
-			if current_x == tree_top_candidate[j].x {
-				temp -= tree_top_candidate[j].width
+			if current_x  == tree_top_candidate[j].x {
+				temp      -= tree_top_candidate[j].width
 				current_x += tree_top_candidate[j].width
 				tree_top_temp = append(tree_top_temp, tree_top_candidate[j])
 				if temp <= 0 {
-					finish = true
+					finish     = true
 					last_width = temp + tree_top_candidate[j].width
 				}
 			}
 		}
 		if finish {
 			tree_top_candidate = tree_top_temp
-			end = false
+			end                = false
 			break
 		}
 	}
@@ -86,7 +86,7 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 	}
 
 	sub_slices_num := len(slice.SubBlock)
-	width_bias := 0
+	width_bias     := 0
 	if sub_slices_num >= 1 {
 		index := 0
 		// node := tree_top[tree_index_list[index]]

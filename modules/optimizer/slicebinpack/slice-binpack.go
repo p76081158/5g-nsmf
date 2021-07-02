@@ -117,14 +117,14 @@ func (p *Packer) Pack(algorithm string, concat bool) {
 					p.DeployInfos = append(p.DeployInfos, info)
 					p.DrawInfos   = append(p.DrawInfos, drawinfo)
 				}
-				p.AcceptSlices = append(p.AcceptSlices, p.Bins.Slices[i])
+				p.AcceptSlices    = append(p.AcceptSlices, p.Bins.Slices[i])
 			} else {
 				node = node.split(w, h)
 				updateTree(node, tree_list, w, h)
-				tree_list        = append(tree_list, node.top)
-				tree_list       = append(tree_list, node.right)
-				tree_list_top   = append(tree_list_top, node.top)
-				tree_list_right = append(tree_list_right, node.right)
+				tree_list         = append(tree_list, node.top)
+				tree_list         = append(tree_list, node.right)
+				tree_list_top     = append(tree_list_top, node.top)
+				tree_list_right   = append(tree_list_right, node.right)
 				info := SliceDeploy {
 					Name:     p.Bins.Slices[i].Name,
 					Ngci:     p.Bins.Slices[i].Ngci,
@@ -156,7 +156,7 @@ func (p *Packer) Pack(algorithm string, concat bool) {
 					p.RejectSlices = append(p.RejectSlices, p.Bins.Slices[i])
 				}
 			} else {
-				p.RejectSlices = append(p.RejectSlices, p.Bins.Slices[i])
+				p.RejectSlices     = append(p.RejectSlices, p.Bins.Slices[i])
 			}
 		}
 	}

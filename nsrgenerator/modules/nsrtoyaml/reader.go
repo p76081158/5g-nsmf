@@ -9,9 +9,9 @@ import (
 
 // Get all network slice info
 func GetSliceInfo(dir string) []SliceList {
-    var timewindow Yaml2GoRequestList
+    var timewindow    Yaml2GoRequestList
     var requestSlices []SliceList
-    path := "../slice-requests/" + dir + "/slice-info-dictionary.yaml"
+    path          := "../slice-requests/" + dir + "/slice-info-dictionary.yaml"
     yamlFile, err := ioutil.ReadFile(path)
     if err != nil {
         log.Printf("yamlFile.Get err   #%v ", err)

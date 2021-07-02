@@ -18,11 +18,11 @@ type Block            = slicebinpack.Block
 type SliceList        = nsrhandler.SliceList
 type ForecastingBlock = nsrhandler.ForecastingBlock
 
-var Cpu_base = 100
-var Cpu_min = 2
-var Bandwidth_min = 1
+var Cpu_base            = 100
+var Cpu_min             = 2
+var Bandwidth_min       = 1
 var Slice_Duration_base = 100
-var Slice_Duration_min = 1
+var Slice_Duration_min  = 1
 
 // generate network slice info of each tenant and slice request
 func SliceRequestGenerator(dir string, gnb_tenant_dictionary []string, num_slice int, cpu_max int, cpu_lambda int, bandwidthLimit int, bandwidth_lambda int, slice_duration int, slice_duration_random bool, timewindow_duration int, extra_request_num_each_timewindow int) {
@@ -31,13 +31,13 @@ func SliceRequestGenerator(dir string, gnb_tenant_dictionary []string, num_slice
 	for i := 0; i < num_tenant; i++ {
 		hex_tenant_index := fmt.Sprintf("%02x", i + 1)
 		for j := 0; j < num_slice; j++ {
-			r := rand.New(rand.NewSource(uint64(time.Now().UnixNano())))
-			cpu_poisson := distuv.Poisson{float64(cpu_lambda), r}
+			r                 := rand.New(rand.NewSource(uint64(time.Now().UnixNano())))
+			cpu_poisson       := distuv.Poisson{float64(cpu_lambda), r}
 			bandwidth_poisson := distuv.Poisson{float64(bandwidth_lambda), r}
-			hex_slice_index := fmt.Sprintf("%04x", j + 515)
-			sliceCpu := int(cpu_poisson.Rand()) * Cpu_base
-			slicebandwidth := int(bandwidth_poisson.Rand())
-			sliceDuration := slice_duration
+			hex_slice_index   := fmt.Sprintf("%04x", j + 515)
+			sliceCpu          := int(cpu_poisson.Rand()) * Cpu_base
+			slicebandwidth    := int(bandwidth_poisson.Rand())
+			sliceDuration     := slice_duration
 			if sliceCpu < (Cpu_min * Cpu_base) {
 				sliceCpu = Cpu_min * Cpu_base
 			} else if sliceCpu > (cpu_max * Cpu_base) {
@@ -49,9 +49,9 @@ func SliceRequestGenerator(dir string, gnb_tenant_dictionary []string, num_slice
 				slicebandwidth = bandwidthLimit
 			}
 			if slice_duration_random {
-				duration_lambda := slice_duration / Slice_Duration_base
+				duration_lambda  := slice_duration / Slice_Duration_base
 				duration_poisson := distuv.Poisson{float64(duration_lambda), r}
-				duration := int(duration_poisson.Rand())
+				duration         := int(duration_poisson.Rand())
 				if duration < Bandwidth_min {
 					duration = Bandwidth_min
 				} else if duration > timewindow_duration / Slice_Duration_base {
@@ -91,11 +91,11 @@ func RequsetGenerator(dir string, slice_info_dictionary []SliceList, num_tenant 
 			tenant_base_index := k * num_slice
 			if k == num_tenant - 1 {
 				// slice_info_dictionary is one-dimension array, so need index transfer
-				slice_index := (i % num_slice) + tenant_base_index
+				slice_index  := (i % num_slice) + tenant_base_index
 				requestSlices = append(requestSlices, slice_info_dictionary[slice_index])
 			}else {                                                                                                           //        t1 t2 t3  (t = tenant)
 				// slice_info_dictionary is one-dimension array, so need index transfer                                            e.g. 10 10 10  (num_slice)
-				slice_index := (i / int(math.Pow(float64(num_slice), float64(num_tenant - k - 1)))) % 10 + tenant_base_index  //         0  0  0  =   0             t1_index =  i / 100
+				slice_index  := (i / int(math.Pow(float64(num_slice), float64(num_tenant - k - 1)))) % 10 + tenant_base_index //         0  0  0  =   0             t1_index =  i / 100
 				requestSlices = append(requestSlices, slice_info_dictionary[slice_index])                                     //         0  0  1  =   1             t2_index =  i / 10
 			}                                                                                                                 //         0  0  2  =   2             t3_index =  i % 10
 		}                                                                                                                     //            .
@@ -104,11 +104,11 @@ func RequsetGenerator(dir string, slice_info_dictionary []SliceList, num_tenant 
 			tenant_base_index := (i % num_tenant) * num_slice
 			if (i % num_tenant) == num_tenant - 1 {
 				// slice_info_dictionary is one-dimension array, so need index transfer
-				slice_index := ((i % num_slice) + (num_slice - 1) * (i / num_tenant + 1)) % 10 + tenant_base_index
+				slice_index  := ((i % num_slice) + (num_slice - 1) * (i / num_tenant + 1)) % 10 + tenant_base_index
 				requestSlices = append(requestSlices, slice_info_dictionary[slice_index])
 			}else {
 				// slice_info_dictionary is one-dimension array, so need index transfer
-				slice_index := ((i / int(math.Pow(float64(num_slice),  float64(num_tenant - (i % num_tenant) - 1)))) + (num_slice - 1) * (i / num_tenant + 1)) % 10 + tenant_base_index
+				slice_index  := ((i / int(math.Pow(float64(num_slice),  float64(num_tenant - (i % num_tenant) - 1)))) + (num_slice - 1) * (i / num_tenant + 1)) % 10 + tenant_base_index
 				requestSlices = append(requestSlices, slice_info_dictionary[slice_index])
 			}
 		}
@@ -127,13 +127,13 @@ func ForecaseGenerator(dir string, blcok_size int, cpu_max int, cpu_discount flo
 		src := "../slice-forecasting/" + mkdir_folder + "/" + slicelist[i].Snssai + ".yaml"
 
 		for j := 0; j < num_block; j++ {
-			r := rand.New(rand.NewSource(uint64(time.Now().UnixNano())))
-			cpu_resource := slicelist[i].Cpu / Cpu_base
-			cpu_poisson := distuv.Poisson{float64(cpu_resource) * cpu_discount, r}
-			blockCpu := int(cpu_poisson.Rand()) * Cpu_base
+			r                  := rand.New(rand.NewSource(uint64(time.Now().UnixNano())))
+			cpu_resource       := slicelist[i].Cpu / Cpu_base
+			cpu_poisson        := distuv.Poisson{float64(cpu_resource) * cpu_discount, r}
+			blockCpu           := int(cpu_poisson.Rand()) * Cpu_base
 			bandwidth_resource := slicelist[i].Bandwidth
-			bandwidth_poisson := distuv.Poisson{float64(bandwidth_resource) * bandwidth_discount, r}
-			blockBandwidth := int(bandwidth_poisson.Rand())
+			bandwidth_poisson  := distuv.Poisson{float64(bandwidth_resource) * bandwidth_discount, r}
+			blockBandwidth     := int(bandwidth_poisson.Rand())
 			if blockCpu < (Cpu_min * Cpu_base) {
 				blockCpu = Cpu_min * Cpu_base
 			} else if blockCpu > (cpu_max * Cpu_base) {

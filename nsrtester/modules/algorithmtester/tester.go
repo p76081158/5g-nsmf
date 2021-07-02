@@ -52,8 +52,8 @@ func CountAcceptCase(accept_list []Slice) {
 
 // create csv title
 func InitCsvRowTitle(algorithm_name string, caseNum int, forecastingTime int, sort bool, concat bool) [][]string {
-	var result_csv [][]string
-	row_title := []string{"Algorithm", algorithm_name, "Test-parameter : ", "Sort-" + strconv.FormatBool(sort), "ForecastingTime-" + strconv.Itoa(forecastingTime), "Concat-" + strconv.FormatBool(concat)}
+	var result_csv   [][]string
+	row_title       := []string{"Algorithm", algorithm_name, "Test-parameter : ", "Sort-" + strconv.FormatBool(sort), "ForecastingTime-" + strconv.Itoa(forecastingTime), "Concat-" + strconv.FormatBool(concat)}
 	test_case_title := []string{"name", "accept rate"}
 	for i := 0; i < caseNum; i++ {
 		accept_case_name := "accept-" + strconv.Itoa(i + 1)
@@ -70,10 +70,10 @@ func TestAlgorithm(dataset string, test_num int, algorithm string, resource stri
 	for i := 0; i < test_num; i++ {
 		var test_case_csv []string
 		forecastingFinish := false
-		test_name := "test-" + strconv.Itoa(i + 1)
-		path := "../slice-requests/" + dataset + "/" + test_name
+		test_name        := "test-" + strconv.Itoa(i + 1)
+		path             := "../slice-requests/"    + dataset + "/" + test_name
 		path_forecasting := "../slice-forecasting/" + dataset + "/" + test_name
-		drawpath := "../logs/binpack/" + dataset + "/" + test_name + "/" + resource + "/" + algorithm
+		drawpath         := "../logs/binpack/"      + dataset + "/" + test_name + "/" + resource + "/" + algorithm
 		slicebinpack.Mkdir(drawpath)
 		timeWindowNumber := nsrhandler.GetTestCaseTimewindowNumber(path)
 		accept_count := 0
@@ -119,7 +119,7 @@ func TestAlgorithm(dataset string, test_num int, algorithm string, resource stri
 			// scheduler.SlicesScheduler(p.DeployInfos, gnb_ip_dictionary, gnb_ip_B_dictionary, DeployTimeBias, CPUofUserPlane, ueGenerator, RequestPattern)
 			slicebinpack.DrawBinPackResult(drawpath, strconv.Itoa(count), p.DrawInfos, timewindowSize, resource_limit, DrawScaleRatio)
 		}
-		accept_rate := float64(accept_count) / float64( request_in_timewindow *  timeWindowNumber )
+		accept_rate        := float64(accept_count) / float64( request_in_timewindow *  timeWindowNumber )
 		string_accept_rate := fmt.Sprintf("%f", accept_rate)
 		test_case_csv = append(test_case_csv, test_name)
 		test_case_csv = append(test_case_csv, string_accept_rate)

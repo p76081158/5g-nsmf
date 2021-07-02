@@ -1,0 +1,21 @@
+Algorithm,pre-order,Test-parameter : ,Sort-false,ForecastingTime-1,Concat-false
+name,accept rate,accept-1,accept-2,accept-3,accept-4
+test-1,0.895250,0,58,303,639
+test-2,0.742750,0,247,535,218
+test-3,0.818000,0,132,464,404
+test-4,0.742250,0,256,519,225
+test-5,0.831500,0,114,446,440
+Algorithm,invert-pre-order,Test-parameter : ,Sort-false,ForecastingTime-1,Concat-false
+name,accept rate,accept-1,accept-2,accept-3,accept-4
+test-1,0.896250,0,42,331,627
+test-2,0.743750,0,199,627,174
+test-3,0.832500,0,87,496,417
+test-4,0.758500,0,202,562,236
+test-5,0.833750,0,88,489,423
+Algorithm,leaf-size,Test-parameter : ,Sort-false,ForecastingTime-1,Concat-false
+name,accept rate,accept-1,accept-2,accept-3,accept-4
+test-1,0.886500,0,68,318,614
+test-2,0.746000,0,220,576,204
+test-3,0.820750,0,128,461,411
+test-4,0.743250,0,260,507,233
+test-5,0.824750,0,121,459,420

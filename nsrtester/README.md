@@ -1,13 +1,16 @@
-# DataSet of the Network Slice Request
+# Generate and Test DataSet of the Network Slice Request
 
-###### tags: `docs`
+###### tags: `docs` `Network Slice`
+
+## Introduction
+
+Create DataSet by yaml file and Test algorithm performance
 
 ## Git Clone
 
 ```bash
 $ git clone https://github.com/p76081158/5g-nsmf.git
 ```
-
 
 ## Create Dir of DataSet in slice-requests
 
@@ -29,7 +32,7 @@ $ nano DataSet-parameter.yaml
 
 ```yaml=
 datasetInfo:
-  name: DataSet-1          # name of the dataset
+  name: DataSet-Example    # name of the dataset
   ngciList:                # tenants list
     - 466-01-000000010
     - 466-11-000000010
@@ -46,14 +49,21 @@ datasetInfo:
       limit: 10            # bandwidth reqeust limit
       lambda: 5            # generate slice reqeusted cpu by poisson distribution
       discount: 0.5        # forecasting discount
-    duration: 300          # duration of slice reqeust   
+    duration: 300          # duration of slice reqeust
+    random: false          # slice request duration is fixed or random (poison lambda = duration)
+  target: cpu              # target of resource for slice bin packing algorithm
+  sort: true               # sorting network slice requests in each timewindow before bin packing
+  concat: false            # use concat algorithm if not finding any tree node for slice reqeust
   timewindow: 600          # duration of each timewindow
-  forecastBlockSize: 150   # forecasted block size of network slice request, e.g. each network slice reqeust's duration is 300, so each slice requests will be divided into two sub slice requests (300/150=2)
+  forecastingTime: 0       # from which timewindow start use forecasted data (0 == nerver, 1 == from timewindow-1)
+  forecastBlockSize: 100   # forecasted block size of network slice request, e.g. each network slice reqeust's duration is 300, so each slice requests will be divided into two sub slice requests (300/150=2)
+  regenerate: true         # regenerate DataSet again (false for DataSet already exist)
 ```
 
 ### Usage
 
 ```bash
+$ cd 5g-nsmf/nsrtester
 # ./nsrtester <dataset name>
 $ ./nsrtester DataSet-Example
 ```

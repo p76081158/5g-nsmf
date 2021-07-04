@@ -1,0 +1,27 @@
+datasetInfo:
+  name: DataSet-8          # name of the dataset
+  ngciList:                # tenants list
+    - 466-01-000000010
+    - 466-11-000000010
+    - 466-93-000000010
+  sliceNum: 10             # slice number of each tenants
+  extraRequest: 1          # each timewindow has n network slice requests ( n = tenant num + extraRequest, e.g. n = 3 + 1 )
+  testNum: 5               # how many test case in this dataset
+  resource:
+    cpu:
+      limit: 1000          # cpu request limit  (1000 = 1 cpu core)
+      lambda: 600          # generate slice reqeusted cpu by poisson distribution
+      discount: 0.5        # forecasting discount
+    bandwidth:
+      limit: 10            # bandwidth reqeust limit
+      lambda: 5            # generate slice reqeusted cpu by poisson distribution
+      discount: 0.5        # forecasting discount
+    duration: 300          # duration of slice reqeust
+    random: true           # slice request duration is fixed or random (poison lambda = duration)
+  target: cpu              # target of resource for slice bin packing algorithm
+  sort: true               # sorting network slice requests in each timewindow before bin packing
+  concat: true             # use concat algorithm if not finding any tree node for slice reqeust
+  timewindow: 600          # duration of each timewindow
+  forecastingTime: 1       # from which timewindow start use forecasted data (0 == nerver, 1 == from timewindow-1)
+  forecastBlockSize: 100   # forecasted block size of network slice request, e.g. each network slice reqeust's duration is 300, so each slice requests will be divided into two sub slice requests (300/150=2)
+  regenerate: false        # regenerate DataSet again (false for DataSet already exist)

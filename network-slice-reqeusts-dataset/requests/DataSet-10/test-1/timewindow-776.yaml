@@ -1,0 +1,22 @@
+requestList:
+  sliceList:
+  - snssai: "0x0101020a"
+    ngci: 466-01-000000010
+    duration: 200
+    cpu: 500
+    bandwidth: 4
+  - snssai: "0x0102020a"
+    ngci: 466-11-000000010
+    duration: 400
+    cpu: 700
+    bandwidth: 9
+  - snssai: "0x01030208"
+    ngci: 466-93-000000010
+    duration: 200
+    cpu: 900
+    bandwidth: 4
+  - snssai: "0x0102020b"
+    ngci: 466-11-000000010
+    duration: 500
+    cpu: 800
+    bandwidth: 7

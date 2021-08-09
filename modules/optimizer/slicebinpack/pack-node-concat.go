@@ -14,6 +14,9 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 	tree_top_candidate := []*node{}
 	tree_top_new       := []*node{}
 	last_width         := 0
+	max_height         := 0
+	sub_slices_num     := len(slice.SubBlock)
+	width_bias         := 0
 
 	// fmt.Println(len(tree_all))
 	// fmt.Println(len(tree_top))
@@ -22,14 +25,29 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 		fmt.Println(tree_all[i])
 	}
 	fmt.Println("")
+
+	// sort node by x-coordinate
 	sort.Sort(ByNodeX(tree_top))
 
+	// get the max height of slice
+	if sub_slices_num > 0 {
+		for i := 0; i < sub_slices_num; i++ {
+			if slice.SubBlock[i].Height > max_height {
+				max_height = slice.SubBlock[i].Height
+			}
+		}
+	} else {
+		max_height = slice.Height
+	}
+
+	// find candidate nodes which have enough height
 	for i := 0; i < len(tree_top); i++ {
-		if tree_top[i].right == nil && tree_top[i].top == nil && tree_top[i].height >= slice.Height {
+		if tree_top[i].right == nil && tree_top[i].top == nil && tree_top[i].height >= max_height {
 			tree_top_candidate = append(tree_top_candidate, tree_top[i])
 		} 
 	}
 
+	// view all candidate nodes to check slice can fit in or not
 	for i := 0; i < len(tree_top_candidate); i++ {
 		finish        := false
 		tree_top_temp := []*node{}
@@ -37,10 +55,10 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 		temp          := slice.Width - tree_top_candidate[i].width
 		current_x     := tree_top_candidate[i].x + tree_top_candidate[i].width
 		for j := i + 1; j < len(tree_top_candidate); j++ {
-			if current_x  == tree_top_candidate[j].x {
-				temp      -= tree_top_candidate[j].width
-				current_x += tree_top_candidate[j].width
-				tree_top_temp = append(tree_top_temp, tree_top_candidate[j])
+			if current_x == tree_top_candidate[j].x {
+				temp          -= tree_top_candidate[j].width
+				current_x     += tree_top_candidate[j].width
+				tree_top_temp  = append(tree_top_temp, tree_top_candidate[j])
 				if temp <= 0 {
 					finish     = true
 					last_width = temp + tree_top_candidate[j].width
@@ -54,40 +72,13 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 		}
 	}
 
-
-	// for i := 0; i < len(tree_top_candidate); i++ {
-	// 	fmt.Println(tree_top_candidate[i])
-	// 	if tree_top[i].right == nil && tree_top[i].top == nil && tree_top[i].height >= slice.Height {
-	// 		for j := i + 1; j < len(tree_top); j++ {
-	// 			if tree_top[j].height >= slice.Height && tree_top[i].x + tree_top[i].width == tree_top[j].x {
-
-	// 			}
-	// 		}
-
-
-
-
-	// 		if temp - tree_top[i].width > 0 && slice.Height <= tree_top[i].height {
-	// 			if i != len(tree_top) - 1 && (tree_top[i].x + tree_top[i].width) == tree_top[i+1].x {
-	// 				temp -= tree_top[i].width
-	// 				tree_index_list = append(tree_index_list, i)					
-	// 			}
-	// 		} else if slice.Height <= tree_top[i].height {
-	// 			last_width = temp
-	// 			tree_index_list = append(tree_index_list, i)
-	// 			end = false
-	// 			break
-	// 		}
-	// 	}
-	// }
-
+	// if slice can't fit in, then return nil
 	if end {
 		return nil, nil, nil, nil
 	}
 
-	sub_slices_num := len(slice.SubBlock)
-	width_bias     := 0
-	if sub_slices_num >= 1 {
+	// put slice into candidate nodes
+	if sub_slices_num > 0 {
 		index := 0
 		// node := tree_top[tree_index_list[index]]
 		node := tree_top_candidate[index]

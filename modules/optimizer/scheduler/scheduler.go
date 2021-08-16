@@ -24,7 +24,7 @@ func SlicesScheduler(slicesDeploy []SliceDeploy, gnb_ip_dictionary map[string]st
 		end         := slicesDeploy[i].End
 		cpu         := slicesDeploy[i].Resource
 
-		// deploy to kuberenets with replicca 0
+		// deploy to kuberenets with replica 0
 		//f5gnssmf.DeploySliceToCoreNetwork(slice_name[0], gnb_ip, gnb_n3_ip_B, ngci, cpu, cpu_of_user_plane)
 
 		// modify existed network slice or create new network slice

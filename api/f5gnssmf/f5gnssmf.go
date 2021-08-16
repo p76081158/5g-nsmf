@@ -32,7 +32,7 @@ func DeleteSliceFromCoreNetwork(snssai string) {
 	nssmf.DeleteNetworkSlice(snssai)
 }
 
-// scaleout slice from core network (by calling the nssmf of free5gc)
+// scale slice from core network (by calling the nssmf of free5gc)
 func ScaleOutSliceFromCoreNetwork(snssai string, ngci string,) {
 	nssmf.ScaleOut(snssai, ngci)
 }

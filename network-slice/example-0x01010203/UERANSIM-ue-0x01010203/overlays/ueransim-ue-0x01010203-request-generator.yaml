@@ -1,0 +1,16 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: free5gc-ueransim-ue-0x01010203
+  name: free5gc-ueransim-ue-0x01010203
+spec:
+  template:
+    spec:
+      containers:
+        - name: ue-requests-generator
+          image: black842679513/ue-requests-generator:v1.0.1
+          imagePullPolicy: Always
+          args: ["curl service-466-01-000000010-0x01010203:9090", "uesimtun0", "600:300", "300"]
+          #args: ["curl cpu-test:9090", "none", "600:300", "300"]

@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: service-466-01-000000010-0x01010203
+  name: service-466-01-000000010-0x01010203
+spec:
+  type: ClusterIP
+  ports:
+  - name: service-port
+    port: 9090
+    protocol: TCP
+    targetPort: 9090
+  selector:
+    app: service-466-01-000000010-0x01010203

@@ -1,0 +1,17 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: free5gc-smf-0x01010203
+  name: free5gc-smf-0x01010203
+spec:
+  template:
+    spec:
+      containers:
+        - name: free5gc-smf
+          resources:
+            requests:
+              cpu: "200m"
+            limits:
+              cpu: "200m"

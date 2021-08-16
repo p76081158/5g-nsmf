@@ -1,0 +1,17 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: service-466-01-000000010-0x01010203
+  name: service-466-01-000000010-0x01010203
+spec:
+  template:
+    spec:
+      containers:
+        - name: cpu-usage-simulator
+          resources:
+            requests:
+              cpu: "600m"
+            limits:
+              cpu: "600m"

@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: free5gc-smf-0x01010203
+  name: free5gc-smf-0x01010203
+spec:
+  type: ClusterIP
+  ports:
+  - name: free5gc-smf-0x01010203-sbi
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  - name: free5gc-smf-0x01010203-n4
+    port: 8805
+    protocol: UDP
+    targetPort: 8805
+  selector:
+    app: free5gc-smf-0x01010203

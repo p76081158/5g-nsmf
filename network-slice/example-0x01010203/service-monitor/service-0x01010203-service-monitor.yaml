@@ -1,0 +1,17 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: service-466-01-000000010-0x01010203-service-monitor
+  # Change this to the namespace the Prometheus instance is running in
+  namespace: monitoring
+  labels:
+    app: service-466-01-000000010-0x01010203
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: service-466-01-000000010-0x01010203 # target service
+  endpoints:
+  - port: metrics
+    interval: 5s

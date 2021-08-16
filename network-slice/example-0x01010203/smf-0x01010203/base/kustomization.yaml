@@ -1,0 +1,28 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: free5gc
+resources:
+  - smf-0x01010203-sa.yaml
+  - smf-0x01010203-rbac.yaml
+  - smf-0x01010203-service.yaml
+  - smf-0x01010203-deployment.yaml
+
+# declare Secret from a secretGenerator
+secretGenerator:
+- name: free5gc-smf-0x01010203-tls-secret
+  namespace: free5gc
+  files:
+  - TLS/smf.pem
+  - TLS/smf.key
+  type: "Opaque"
+generatorOptions:
+  disableNameSuffixHash: true
+
+# declare ConfigMap from a ConfigMapGenerator
+configMapGenerator:
+- name: free5gc-smf-0x01010203-config
+  namespace: free5gc
+  files:
+    - smfcfg.yaml=config/smfcfg-0x01010203.yaml
+    - config/uerouting.yaml

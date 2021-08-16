@@ -1,0 +1,93 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: free5gc-upf-0x01010203
+  labels:
+    app: free5gc-upf-0x01010203
+    nsi: "1"        # Network Slice Instance of three networks (RAN,TN,CN)
+    sst: "01"       # Slice/Service Type (1 byte uinteger, range: 0~255)
+    sd: "010203"    # Slice Differentiator (3 bytes hex string, range: 000000~FFFFFF)
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: free5gc-upf-0x01010203
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: free5gc-upf-0x01010203
+        nsi: "1"        # Network Slice Instance of three networks (RAN,TN,CN)
+        sst: "01"       # Slice/Service Type (1 byte uinteger, range: 0~255)
+        sd: "010203"    # Slice Differentiator (3 bytes hex string, range: 000000~FFFFFF)
+      annotations:
+        k8s.v1.cni.cncf.io/networks: free5gc-n3-466-01-000000010, free5gc-n4-466-01-000000010-0x01010203
+        free5gc-n3-466-01-000000010.free5gc.ovn.kubernetes.io/logical_switch: free5gc-n3-466-01-000000010
+        free5gc-n3-466-01-000000010.free5gc.ovn.kubernetes.io/ip_address: 10.200.100.4
+        free5gc-n4-466-01-000000010-0x01010203.free5gc.ovn.kubernetes.io/logical_switch: free5gc-n4-466-01-000000010-0x01010203
+        free5gc-n4-466-01-000000010-0x01010203.free5gc.ovn.kubernetes.io/ip_address: 10.200.101.101
+    spec:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+      initContainers:
+        - name: free5gc-upf-init
+          image: black842679513/free5gc-upf-init:v1.0.0
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: false
+            # add network capabilities
+            capabilities:
+              add: ["NET_ADMIN", "NET_RAW", "NET_BIND_SERVICE", "SYS_TIME"]
+          command:
+            - /bin/sh
+            - -c
+            - |
+              sysctl -w net.ipv4.ip_forward=1
+              iptables -t nat -A POSTROUTING -s 60.60.0.0/16 ! -o upfgtp -j MASQUERADE
+      containers:
+        - name: free5gc-upf
+          image: black842679513/free5gc-upf:v3.0.5
+          imagePullPolicy: IfNotPresent
+          # imagePullPolicy: Always
+          securityContext:
+            privileged: false
+            # add network capabilities
+            capabilities:
+              add: ["NET_ADMIN", "NET_RAW", "NET_BIND_SERVICE", "SYS_TIME"]
+          volumeMounts:
+            - name: free5gc-upf-0x01010203-config
+              mountPath: /free5gc/config
+              # read host linux tun/tap packets
+           # - name: tun-dev-dir
+           #   mountPath: /dev/net/tun
+          ports:
+            - containerPort: 2152
+              name: if-n3
+              protocol: UDP
+            - containerPort: 8805
+              name: if-n4
+              protocol: UDP
+        - name: tcpdump
+          image: corfr/tcpdump
+          securityContext:
+            privileged: true
+          command:
+            - /bin/sh
+            - -c
+            - |
+              sleep infinity
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      serviceAccountName: free5gc-upf-0x01010203-sa
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: free5gc-upf-0x01010203-config
+          configMap:
+            name: free5gc-upf-0x01010203-config
+       # - name: tun-dev-dir
+       #   hostPath:
+       #     path: /dev/net/tun

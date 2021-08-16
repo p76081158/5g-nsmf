@@ -1,0 +1,13 @@
+---
+apiVersion: "nssmf.free5gc.com/v1"
+kind: NetworkSlice
+metadata:
+  name: "0x01010203"
+spec:
+  sst: "01"
+  sd: "010203"
+  n4_cidr: "10.201.101.0/24"
+  ue_subnet: "60.60.0.0/16"
+  cpu: 600m
+  memory: default
+  bandwidth: default

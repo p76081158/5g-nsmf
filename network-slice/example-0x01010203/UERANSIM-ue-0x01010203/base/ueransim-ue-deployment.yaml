@@ -1,0 +1,69 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: free5gc-ueransim-ue-0x01010203
+  labels:
+    app: free5gc-ueransim-ue-0x01010203
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: free5gc-ueransim-ue-0x01010203
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: free5gc-ueransim-ue-0x01010203
+        mcc: "466"
+        mnc: "01"
+      annotations:
+        k8s.v1.cni.cncf.io/networks: free5gc-macvlan
+        # free5gc-macvlan.free5gc.kubernetes.io/ip_address: 192.168.72.60
+    spec:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+      containers:
+        - name: free5gc-ueransim-ue
+          image: black842679513/free5gc-ueransim:v3.2.0
+          imagePullPolicy: IfNotPresent
+          # imagePullPolicy: Always
+          command:
+            - /bin/bash
+            - -c
+            - build/nr-ue -c config/free5gc-ue.yaml
+          tty: true
+          securityContext:
+            # allow container to access the host's resources
+            privileged: true
+            capabilities:
+              add: ["NET_ADMIN", "SYS_TIME"]
+          volumeMounts:
+            - name: free5gc-ueransim-ue-0x01010203-config
+              mountPath: /UERANSIM/config
+              # read host linux tun/tap packets
+            #- name: tun-dev-dir  
+            #  mountPath: /dev/net/tun
+        - name: tcpdump
+          image: corfr/tcpdump
+          command:
+            - /bin/sleep
+            - infinity
+        - name: ue-requests-generator
+          image: black842679513/ue-requests-generator:v1.0.1
+          imagePullPolicy: Always
+          args: ["curl service-466-01-000000010-0x01010203:9090", "uesimtun0", "500:10,400:15", 500]
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      serviceAccountName: free5gc-ueransim-ue-0x01010203-sa
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: free5gc-ueransim-ue-0x01010203-config
+          configMap:
+            name: free5gc-ueransim-ue-0x01010203-config
+        #- name: tun-dev-dir
+        #  hostPath:
+        #    path: /dev/net/tun

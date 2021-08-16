@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-466-01-000000010-0x01010203
+  labels:
+    app: service-466-01-000000010-0x01010203
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: service-466-01-000000010-0x01010203
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  # minReadySeconds: 1
+  template:
+    metadata:
+      labels:
+        app: service-466-01-000000010-0x01010203
+        nsi: "1"        # Network Slice Instance of three networks (RAN,TN,CN)
+        sst: "01"       # Slice/Service Type (1 byte uinteger, range: 0~255)
+        sd: "010203"    # Slice Differentiator (3 bytes hex string, range: 000000~FFFFFF)
+      annotations:
+        # ovn.kubernetes.io/ingress_rate: "3"
+        # ovn.kubernetes.io/egress_rate: "1"
+    spec:
+      containers:
+        - name: cpu-usage-simulator
+          image: black842679513/cpu-usage-simulator:v1.0.0
+          imagePullPolicy: IfNotPresent
+          # imagePullPolicy: Always
+          args: ["--", "1", "1", "1"]    # ["--", stress_cpu_nums, cpu_loading, time_duration]
+          securityContext:
+            privileged: true
+          ports:
+            - containerPort: 9090
+              name: service-port
+              protocol: TCP

@@ -1,0 +1,87 @@
+info:
+  version: 1.0.0
+  description: AMF initial local configuration
+
+configuration:
+  smfName: SMF
+  sbi:
+    scheme: http
+    registerIPv4: free5gc-smf-0x01010203 # IP used to register to NRF
+    bindingIPv4: 0.0.0.0  # IP used to bind the service
+    port: 8000
+    tls:
+      key: free5gc/support/TLS/smf.key
+      pem: free5gc/support/TLS/smf.pem
+  serviceNameList:
+    - nsmf-pdusession
+    - nsmf-event-exposure
+    - nsmf-oam
+  snssaiInfos:
+    - sNssai:
+        sst: 1
+        sd: 010203
+      dnnInfos:
+        - dnn: internet
+          dns:
+            ipv4: 8.8.8.8
+            ipv6: 2001:4860:4860::8888
+          ueSubnet: 60.60.0.0/16
+  pfcp:
+    addr: 10.200.101.20
+  userplane_information:
+    up_nodes:
+      gNB1:
+        type: AN
+        an_ip: 192.168.72.51
+      AnchorUPF1:
+        type: UPF
+        node_id: 10.200.101.101 # the IP/FQDN of N4 interface on this UPF (PFCP)
+        sNssaiUpfInfos:
+          - sNssai:
+              sst: 1
+              sd: 010203
+            dnnUpfInfoList:
+              - dnn: internet
+        interfaces:
+          - interfaceType: N3
+            endpoints: # the IP address of this N3/N9 interface on this UPF
+              - 10.200.100.4
+            networkInstance: internet
+          - interfaceType: N9
+            endpoints: # the IP address of this N3/N9 interface on this UPF
+              - 10.200.101.101
+            networkInstance: internet
+    links:
+      - A: gNB1
+        B: AnchorUPF1
+  dnn:
+    internet:
+      dns:
+        ipv4: 8.8.8.8
+        ipv6: 2001:4860:4860::8888
+  ue_subnet: 60.60.0.0/16
+  nrfUri: http://free5gc-nrf-466-01:8000
+  ulcl: false
+
+logger:
+  SMF:
+    debugLevel: info
+    ReportCaller: false
+  NAS:
+    debugLevel: info
+    ReportCaller: false
+  NGAP:
+    debugLevel: info
+    ReportCaller: false
+  Aper:
+    debugLevel: info
+    ReportCaller: false
+  PathUtil:
+    debugLevel: info
+    ReportCaller: false
+  OpenApi:
+    debugLevel: info
+    ReportCaller: false
+  PFCP:
+    debugLevel: info
+    ReportCaller: false

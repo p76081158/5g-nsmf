@@ -52,8 +52,8 @@ func SliceRequestGenerator(dir string, gnb_tenant_dictionary []string, num_slice
 				duration_lambda  := slice_duration / Slice_Duration_base
 				duration_poisson := distuv.Poisson{float64(duration_lambda), r}
 				duration         := int(duration_poisson.Rand())
-				if duration < Bandwidth_min {
-					duration = Bandwidth_min
+				if duration < Slice_Duration_min {
+					duration = Slice_Duration_min
 				} else if duration > timewindow_duration / Slice_Duration_base {
 					duration = timewindow_duration / Slice_Duration_base
 				}

@@ -30,8 +30,6 @@ func (n *node) find(width, height int, algorithm string, tree []*node) *node {
 		return n.find_pre_order(width, height)
 	case "leaf-size":
 		return n.find_leaf_size(width, height, tree)
-	case "trash-recycle":
-		return n.find_pre_order(width, height)
 	}
 	return nil
 }
@@ -60,6 +58,7 @@ func (a ByNodeX) Len() int           { return len(a) }
 func (a ByNodeX) Less(i, j int) bool { return a[i].x < a[j].x }    // ascending sort
 func (a ByNodeX) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
+// update tree node size ( there may has some conditions not include in this function )
 func updateTree(n *node, tree []*node, width, height int) {
 	for i := 0; i < len(tree); i++ {
 		if tree[i].right == nil && tree[i].top == nil {

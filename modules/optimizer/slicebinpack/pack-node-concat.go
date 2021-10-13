@@ -21,6 +21,7 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 	// fmt.Println(len(tree_all))
 	// fmt.Println(len(tree_top))
 	fmt.Println(slice)
+	// fmt.Println(tree_top[0])
 	for i := 0; i < len(tree_all); i++ {
 		fmt.Println(tree_all[i])
 	}
@@ -47,6 +48,7 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 		} 
 	}
 
+	// fmt.Println(tree_top_candidate[0])
 	// view all candidate nodes to check slice can fit in or not
 	for i := 0; i < len(tree_top_candidate); i++ {
 		finish        := false
@@ -54,13 +56,21 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 		tree_top_temp  = append(tree_top_temp, tree_top_candidate[i])
 		temp          := slice.Width - tree_top_candidate[i].width
 		current_x     := tree_top_candidate[i].x + tree_top_candidate[i].width
+		// 
+		if temp <= 0 {
+			finish     = true
+			// last block width
+			last_width = slice.Width			
+		}
+		// find consistent node
 		for j := i + 1; j < len(tree_top_candidate); j++ {
-			if current_x == tree_top_candidate[j].x {
+			if current_x == tree_top_candidate[j].x && temp > 0 {
 				temp          -= tree_top_candidate[j].width
 				current_x     += tree_top_candidate[j].width
 				tree_top_temp  = append(tree_top_temp, tree_top_candidate[j])
 				if temp <= 0 {
 					finish     = true
+					// last block width
 					last_width = temp + tree_top_candidate[j].width
 				}
 			}
@@ -74,6 +84,7 @@ func concatTop(tree_all []*node, tree_top []*node, slice Slice) ([]*node, []*nod
 
 	// if slice can't fit in, then return nil
 	if end {
+		fmt.Println("111111")
 		return nil, nil, nil, nil
 	}
 

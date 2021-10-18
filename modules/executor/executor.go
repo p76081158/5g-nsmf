@@ -17,11 +17,8 @@ func RunDemo() {
 	var slcieRequestCase  = "demo"
 	var algorithm         = "invert-pre-order"
 	var timeWindowNumber  = nsrhandler.GetTestCaseTimewindowNumber( "slice-requests/" + slcieRequestCase)
-	// gnb.GetgNBinfo()
-	// fmt.Println("Restart gNB ...")
-	// gnb.RestartgNB("466-01-000000010")
-	// gnb.RestartgNB("466-11-000000010")
-	// gnb.RestartgNB("466-93-000000010")
+	gnb_ip_dictionary     = GetgNBdictionary()
+	gnb_ip_B_dictionary   = GetgNB_B_dictionary()
 
 	GetgNBinfo()
 	fmt.Println("Restart gNB ...")

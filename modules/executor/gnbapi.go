@@ -14,6 +14,16 @@ func GetgNBlist() []string {
 	return gnb.GetgNBlist()
 }
 
+// get all gNB and save as golang slice
+func GetgNBdictionary() map[string]string {
+	return gnb.GetgNBdictionary()
+}
+
+// get all gNB and save as golang slice
+func GetgNB_B_dictionary() map[string]string {
+	return gnb.GetgNB_B_dictionary()
+}
+
 // restart all gNB in Core Network
 func RestartAllgNB() {
 	gnb_list := GetgNBlist()

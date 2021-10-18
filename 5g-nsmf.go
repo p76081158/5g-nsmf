@@ -78,7 +78,7 @@ func main() {
 		fmt.Printf("Usage : %s <cmd>\n", os.Args[0])
 		os.Exit(0)
 	}
-
+	
 	switch cmd {
 	case "get-gnb-info":
 		executor.GetgNBinfo()

@@ -1016,6 +1016,7 @@ metadata:
     sd: "$sd"    # Slice Differentiator (3 bytes hex string, range: 000000~FFFFFF)
 spec:
   protocol: IPv4
+  provider: free5gc-n4-$ngci-$id.free5gc.ovn
   cidrBlock: 10.$gnb_n3_ip.$n4_ip.0/24
   gateway: 10.$gnb_n3_ip.$n4_ip.1
   excludeIps:

@@ -6,7 +6,7 @@ import (
 	"image"
 	"image/color"
 	"image/draw"
-    "image/png"
+	"image/png"
 	"log"
 	"math/rand"
 	"os"
@@ -24,6 +24,7 @@ func Mkdir(dir string) {
 	fmt.Println("create dir for bin packing picture : logs/binapck/", dir)
 }
 
+// draw deployment of network slice requests
 func DrawBinPackResult(dir string, id string, drawinfos []DrawBlock, width int, height int, scale_ratio int) {
 	img           := image.NewRGBA(image.Rect(0, height / scale_ratio * (-1), width / scale_ratio, 0))
 	new_png_file  := dir + "/timewindow-" + id +".png"

@@ -65,18 +65,50 @@ var sort              = false
 var concat            = true
 // var concat            = false
 
-var cmd = ""
+var cmd               = ""
+var slice_request     = ""
+var algo              = ""
+
+func printInfo(osArg string) {
+	fmt.Printf("Usage : %s <cmd>\n", osArg)
+	fmt.Println("<cmd>\n" + 
+	"get-gnb-info    : get all gNB info. in Core Network\n" +
+	"restart-all-gnb : restart gNB (ueransim-gnb will not work after long time idle)\n" +
+	"run-demo        : run Demo\n" +
+	"run-test        : run Test Algorithm (invert-pre-order, pre-order, leaf-siz)\n" +
+	"debug")
+	os.Exit(0)
+}
 
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Printf("Usage : %s <cmd>\n", os.Args[0])
-		os.Exit(0)
+	if len(os.Args) != 2 && len(os.Args) != 4 {
+		printInfo(os.Args[0])
+		
 	}
 	if (os.Args[1]!="") {
 		cmd = os.Args[1]
 	} else {
-		fmt.Printf("Usage : %s <cmd>\n", os.Args[0])
-		os.Exit(0)
+		printInfo(os.Args[0])
+	}
+	if (len(os.Args) == 4) {
+		if (os.Args[2]!="") {
+			slice_request = os.Args[2]
+		} else {
+			printInfo(os.Args[0])
+		}
+		if (os.Args[3]!="") {
+			algo = os.Args[3]
+			switch algo {
+			case "invert-pre-order":
+			case "pre-order":
+			case "leaf-size":
+			default:
+				fmt.Printf("run-test <Algorithm> : invert-pre-order, pre-order, leaf-size <cmd>\n")
+				printInfo(os.Args[0])
+			}
+		} else {
+			printInfo(os.Args[0])
+		}
 	}
 	
 	switch cmd {
@@ -87,107 +119,14 @@ func main() {
 	case "run-demo":
 		executor.RunDemo()
 	case "run-test":
-		executor.RunAlgorithmTest()
+		executor.RunAlgorithmTest(slice_request, algo)
 	case "run-tenant":
 		tenantbinpack.RunTenant()
 	case "debug":
 		executor.RunDebug()
 	default:
-		fmt.Println("<cmd>\n" + 
-		"get-gnb-info    : get all gNB info. in Core Network\n" +
-		"restart-all-gnb : restart gNB (ueransim-gnb will not work after long time idle)\n" +
-		"run-demo        : run Demo\n")
+		printInfo(os.Args[0])
 	}
-
-	// executor.GetgNBinfo()
-	// test := executor.GetgNBlist()
-
-	// fmt.Println("sdfsfds")
-	// fmt.Println(test)
-	// gnb.GetgNBinfo()
-	// fmt.Println("Restart gNB ...")
-	// gnb.RestartgNB("466-01-000000010")
-	// gnb.RestartgNB("466-11-000000010")
-	// gnb.RestartgNB("466-93-000000010")
-	// // // warm up 2 mins
-	// warnup := nsrhandler.GetSliceInfo(slcieRequestCase)
-	// for i := 0; i < len(warnup); i++ {
-	// 	slice_name  := warnup[i].Snssai
-	// 	gnb_ip      := gnb_ip_dictionary[warnup[i].Ngci]
-	// 	gnb_n3_ip_B := gnb_ip_B_dictionary[warnup[i].Ngci]
-	// 	ngci        := warnup[i].Ngci
-	// 	cpu         := warnup[i].Cpu
-
-	// 	// deploy to kuberenets with replicca 0
-	// 	f5gnssmf.DeploySliceToCoreNetwork(slice_name, gnb_ip, gnb_n3_ip_B, ngci, cpu, CPUofUserPlane)
-	// 	f5gnssmf.ServiceWarmUp(slice_name, ngci)
-	// }
-	// fmt.Println("Warm up time ...")
-	// time.Sleep(30 * time.Second)
-
-	// accept_count := 0
-	// reject_count := 0
-	// slicebinpack.Mkdir("logs/binpack/" + slcieRequestCase)
-
-	// for i := 0; i < timeWindowNumber; i++ {
-	// 	count := i + 1
-
-	// 	if count == forecastingTime {
-	// 		forecastingFinish = true
-	// 	}
-
-	// 	dt := time.Now()
-	// 	fmt.Println("")
-	// 	fmt.Println(dt.String())
-	// 	fmt.Println("")
-	// 	fmt.Println("Read Network Slice Requests ", count)
-	// 	fmt.Println("")
-
-	// 	// get network slice request by test case, and generate ue request pattern by network slice request
-	// 	requestCpu, requestBandwidth, ueGenerator = nsrhandler.RefreshRequestList("slice-requests/" + slcieRequestCase, "slice-forecasting/" + slcieRequestCase, count, forecastingFinish, sort)
-	// 	fmt.Println(requestCpu)
-	// 	fmt.Println(requestBandwidth)
-	// 	fmt.Println(ueGenerator)
-	// 	fmt.Println("")
-	// 	fmt.Println("Result of Network Slice Bin Packing")
-	// 	fmt.Println("")
-
-	// 	bin = Bin{"Resource", TimeWindowSize, ResourceLimit, requestCpu}
-	// 	p = Packer{bin, access, reject, deploy_info, draw_info}
-	// 	p.Pack(algorithm, concat)
-
-	// 	fmt.Println("Accept Slices: ", p.AcceptSlices)
-	// 	fmt.Println("Reject Slices: ", p.RejectSlices)
-	// 	fmt.Println("Deploy Info:   ", p.DeployInfos)
-	// 	fmt.Println("Draw Info:     ", p.DrawInfos)
-	// 	fmt.Println("")
-
-	// 	accept_count += len(p.AcceptSlices)
-	// 	reject_count += len(p.RejectSlices)
-	// 	scheduler.SlicesScheduler(p.DeployInfos, gnb_ip_dictionary, gnb_ip_B_dictionary, DeployTimeBias, CPUofUserPlane, ueGenerator, RequestPattern)
-	// 	slicebinpack.DrawBinPackResult("logs/binpack/" + slcieRequestCase, strconv.Itoa(count), p.DrawInfos, TimeWindowSize, ResourceLimit, DrawScaleRatio)
-
-	// 	time.Sleep(time.Duration(TimeWindowSize + TimeWindowDelay) * time.Second)
-	// }
-	
-	// for i := 0; i < len(warnup); i++ {
-	// 	slice_name  := warnup[i].Snssai
-	// 	// delete from core network
-	// 	f5gnssmf.DeleteSliceFromCoreNetwork(slice_name)
-	// }
-
-	// fmt.Println("Accept count: ", accept_count)
-	// fmt.Println("Reject count: ", reject_count)
-	// fmt.Println("Accept rate : ", float64(accept_count) / 4000.0)
-
-	// gnb.RestartgNB("466-01-000000010")
-	// gnb.RestartgNB("466-11-000000010")
-	// gnb.RestartgNB("466-93-000000010")
-	// nssmf.ApplyNetworkSlice("0x01010203", "192.168.72.51", "200", "466-01-000000010", 600, 200)
-	// nssmf.DeployNetworkSlice("0x01010203", "192.168.72.51", "200", "466-01-000000010", 600, 200)
-	// nssmf.ApplyNetworkSlice("0x01010203", "466-01-000000010")
-	// nssmf.DeleteNetworkSlice("0x01010203")
-	//f5gnssmf.ApplySliceToCoreNetwork("0x01010203", "192.168.72.51", "200", "466-01-000000010", 600, 200, 0, 60, true, 1.04)
 }
 
 // test example:

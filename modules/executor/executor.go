@@ -101,10 +101,13 @@ func RunDemo() {
 	fmt.Println("Accept rate : ", float64(accept_count) / float64(total_count))
 }
 
-func RunAlgorithmTest() {
+// test algorithm
+func RunAlgorithmTest(slice_request string, algo string) {
 	// var slcieRequestCase  = "demo"
-	var slcieRequestCase  = "multi-tenant/466-01-000000010"
-	var algorithm         = "invert-pre-order"
+	// var slcieRequestCase  = "multi-tenant/466-01-000000010"
+	// var algorithm         = "invert-pre-order"
+	var slcieRequestCase  = slice_request
+	var algorithm         = algo
 	// var algorithm         = "node-concat"
 	var timeWindowNumber  = nsrhandler.GetTestCaseTimewindowNumber( "slice-requests/" + slcieRequestCase)
 
@@ -148,11 +151,11 @@ func RunAlgorithmTest() {
 
 		accept_count += len(p.AcceptSlices)
 		reject_count += len(p.RejectSlices)
-		total_count  += accept_count + reject_count
 		
 		slicebinpack.DrawBinPackResult("logs/binpack/" + slcieRequestCase, strconv.Itoa(count), p.DrawInfos, TimeWindowSize, ResourceLimit, DrawScaleRatio)
 	}
 
+	total_count  += accept_count + reject_count
 	fmt.Println("Accept count: ", accept_count)
 	fmt.Println("Reject count: ", reject_count)
 	fmt.Println("Accept rate : ", float64(accept_count) / float64(total_count))

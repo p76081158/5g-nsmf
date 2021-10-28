@@ -6,8 +6,8 @@
 
 ## Introduction
 
-Paper : Network Slicing Orchestration in 5G Core Network Based on Utilization Forecasting
-Environment Setup : [p76081158/free5gc-kube-ovn](https://github.com/p76081158/free5gc-kube-ovn)
+* Paper : Network Slicing Orchestration in 5G Core Network Based on Utilization Forecasting
+* Environment Setup : [p76081158/free5gc-kube-ovn](https://github.com/p76081158/free5gc-kube-ovn)
 
 ## How to use
 

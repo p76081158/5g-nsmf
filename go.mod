@@ -7,3 +7,15 @@ require (
 	github.com/p76081158/free5gc-nssmf v0.0.0-20210616172500-b20fa150920c
 	gopkg.in/yaml.v2 v2.4.0
 )
+
+replace (
+	github.com/p76081158/5g-nsmf/modules/executor => ./modules/executor
+	github.com/p76081158/5g-nsmf/modules/logger => ./modules/logger
+	github.com/p76081158/5g-nsmf/modules/nsrhandler => ./modules/nsrhandler
+	github.com/p76081158/5g-nsmf/modules/optimizer/slicebinpack => ./modules/optimizer/slicebinpack
+	github.com/p76081158/5g-nsmf/modules/optimizer/tenantbinpack => ./modules/optimizer/tenantbinpack
+	github.com/p76081158/5g-nsmf/modules/optimizer/scheduler => ./modules/optimizer/scheduler
+	github.com/p76081158/5g-nsmf/modules/ueransim/gnb => ./modules/ueransim/gnb
+	github.com/p76081158/5g-nsmf/modules/ueransim/ue/generator => ./modules/ueransim/ue/generator
+	github.com/p76081158/5g-nsmf/api/f5gnssmf => ./api/f5gnssmf
+)

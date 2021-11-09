@@ -15,6 +15,10 @@
 
 package slicebinpack
 
+import (
+	"fmt"
+)
+
 // top   == left  child of tree node
 // right == right child of tree node
 type node struct {
@@ -31,6 +35,7 @@ func (n *node) find(width, height int, algorithm string, tree []*node) *node {
 	case "leaf-size":
 		return n.find_leaf_size(width, height, tree)
 	}
+	fmt.Println("can't find algorithm : ", algorithm)
 	return nil
 }
 

@@ -32,7 +32,7 @@ func Mkdir(dir string) {
 // add label to Network Slice Requests
 func addLabel(img *image.RGBA, x, y int, label string) {
 	col := color.RGBA{255, 255, 255, 255}
-	point := fixed.Point26_6{fixed.Int26_6(x * 64), fixed.Int26_6(y * 64)}
+	point := fixed.Point26_6{fixed.Int26_6((x - 7) * 64), fixed.Int26_6((y - 13) * 64)}
 
 	d := &font.Drawer{
 		Dst:  img,
